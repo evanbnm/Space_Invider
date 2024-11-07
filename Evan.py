@@ -18,12 +18,19 @@ class Game:
         self.frame.pack_propagate(False)
         self.frame.pack(side="bottom")
 
-        self.menubar=tk.Menu(self.root)
-        self.root.config(menu=self.menubar)
-        self.menubar.add_cascade(label="File", menu=self.fileMenu)
-        self.fileMenu.add_command(label="New Game", command=self.start_game)
-        self.fileMenu.add_separator()
-        self.fileMenu.add_command(label="Quit", command=self.quit_game)
+        self.menu = tk.Menu(self.root)
+        self.root.config(menu=self.menu)
+
+        self.file_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.file_menu.add_command(label="Quit", command=self.quit_game)
+
+        self.help_menu = tk.Menu(self.menu, tearoff=0)
+        self.menu.add_cascade(label="Help", menu=self.help_menu)
+        self.help_menu.add_command(label="About", command=self.show_about)
+
+        
+
 
 
         self.running = True
@@ -34,6 +41,9 @@ class Game:
         self.score = Score(self.frame)  
 
         self.life = Life(self.frame)
+
+    def show_about(self):
+            tk.messagebox.showinfo("About", "Space Invaders Game\nCreated by Evan")
 
     def quit_game(self):
         self.running = False
