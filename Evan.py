@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 
 
 class Game:
@@ -22,17 +23,11 @@ class Game:
         self.root.config(menu=self.menu)
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
-        self.menu.add_cascade(label="File", menu=self.file_menu)
+        self.menu.add_cascade(label="Menu", menu=self.file_menu)
+        self.file_menu.add_command(label="New Game", command=self.start_game)
         self.file_menu.add_command(label="Quit", command=self.quit_game)
-
-        self.help_menu = tk.Menu(self.menu, tearoff=0)
-        self.menu.add_cascade(label="Help", menu=self.help_menu)
-        self.help_menu.add_command(label="About", command=self.show_about)
-
+        self.file_menu.add_command(label="About", command=self.show_about)
         
-
-
-
         self.running = True
 
         self.buttonQuit = Button(self.frame, "Quit", self.quit_game, 'right')
@@ -42,18 +37,29 @@ class Game:
 
         self.life = Life(self.frame)
 
+        
+
     def show_about(self):
-            tk.messagebox.showinfo("About", "Space Invaders Game\nCreated by Evan")
+        messagebox.showinfo("About", "Space Invaders Game\nCreated by Evan and Mathis")
 
     def quit_game(self):
         self.running = False
         self.root.destroy()
 
     def start_game(self):
+        self.canvas.delete("all")
+        self.alien = Alien(self.canvas, 0, 0)
+        self.ship = Ship(self.canvas)
+        self.life.reset()
+        self.score.reset()
         self.main_loop()
 
     def main_loop(self):
-        pass
+        while self.running:
+            self.alien.update()
+            self.root.update()
+            # self.ship.update()
+        
 
     def update(self):
         pass
@@ -106,6 +112,53 @@ class Life:
     def reset(self):
         self.lives = 3
         self.update()
+
+class Alien:
+    def __init__(self, canvas, x, y):
+        self.canvas = canvas
+        self.alien = self.canvas.create_rectangle(x, y, x + 50, y + 30, fill="green")
+        self.speed = 2
+        self.move()
+    
+    def move(self):
+        self.canvas.move(self.alien, self.speed, 0)
+        x1, y1, x2, y2 = self.canvas.coords(self.alien)
+        if x2 > self.canvas.winfo_width() or x1 < 0:
+            self.speed *= -1
+
+    def update(self):
+        self.move()
+
+class Ship:
+    def __init__(self, canvas):
+        self.canvas = canvas
+        self.ship = self.canvas.create_rectangle(0, 0, 50, 30, fill="blue")
+        self.speed = 0.3
+        self.canvas.move(self.ship, 275, 400)
+        self.canvas.bind_all("<Left>", self.start_move_left)
+        self.canvas.bind_all("<Right>", self.start_move_right)
+        self.canvas.bind_all("<KeyRelease-Left>", self.stop_move)
+        self.canvas.bind_all("<KeyRelease-Right>", self.stop_move)
+        self.moving_left = False
+        self.moving_right = False
+        self.update()
+
+    def start_move_left(self, event):
+        self.moving_left = True
+
+    def start_move_right(self, event):
+        self.moving_right = True
+
+    def stop_move(self, event):
+        self.moving_left = False
+        self.moving_right = False
+
+    def update(self):
+        if self.moving_left:
+            self.canvas.move(self.ship, -self.speed, 0)
+        if self.moving_right:
+            self.canvas.move(self.ship, self.speed, 0)
+        self.canvas.after(1, self.update)
 
 
 
