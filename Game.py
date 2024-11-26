@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import random
+import subprocess
+import sys
 
 from AlienGroup import AlienGroup
 from Ship import Ship
@@ -40,12 +42,14 @@ class Game:
         self.loop_id = None  # Attribut pour stocker l'ID de la boucle
         self.bonus_exist = False
 
-        self.buttonQuit = Button(self.frame, "Quit", self.quit_game, 'right')
+        self.buttonQuit = Button(self.frame, "Quit", self.exe, 'right')
         self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
 
         self.score = Score(self.frame)  
 
         self.life = Life(self.frame)
+
+        self.root.after(500,self.start_game)
 
     
 
@@ -56,6 +60,17 @@ class Game:
         self.running = False
         self.root.destroy()
 
+    def exe(self):
+        self.running = False
+        try:
+            self.root.destroy()  # Fermer la fenêtre actuelle
+            # Utiliser l'interpréteur Python actuel
+            subprocess.Popen([sys.executable, "menu.py"])
+        except subprocess.CalledProcessError as e:
+            print(f"Erreur lors de l'exécution : {e}")
+        except FileNotFoundError:
+            print("Le fichier 'autre_script.py' est introuvable.")
+
     def start_game(self):
         self.running = False
         self.bonus_exist = False
@@ -65,8 +80,8 @@ class Game:
         self.score.reset()
 
         self.aliens_group = AlienGroup(self.canvas)
-        self.wall_right = Wall(self.canvas, 450, 650)
-        self.wall_left = Wall(self.canvas, 150, 650)
+        self.wall_right = Wall(self.canvas, 450, 600)
+        self.wall_left = Wall(self.canvas, 100, 600)
         
         self.running = True
 
@@ -206,7 +221,7 @@ class Game:
                 self.bonus = BonusAlien(self.canvas, 0, 30, direction)
             else:
                 self.bonus = BonusAlien(self.canvas, 700, 30, direction)
-            time = random.randint(5000, 6000)
+            time = random.randint(10000, 15000)
             self.root.after(time, lambda: self.bonus_alien())
     
     def check_collision_bonus(self):

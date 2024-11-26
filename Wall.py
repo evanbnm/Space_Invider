@@ -10,8 +10,8 @@ class Wall:
     
     def create(self):
         for i in range(6):
-            for j in range(3):
-                brick = Brick(self.canvas, self.x + i * 26, self.y + j * 26)
+            for j in range(4):
+                brick = Brick(self.canvas, self.x + i * 36, self.y + j * 36)
                 self.brick.append(brick)
 
 

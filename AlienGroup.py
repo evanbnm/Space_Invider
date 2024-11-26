@@ -4,7 +4,7 @@ class AlienGroup:
     def __init__(self, canvas):
         self.canvas = canvas
         self.aliens = []
-        self.speed = 2
+        self.speed = 1.5
         self.direction = 1  # 1 = droite, -1 = gauche
         self.x_offset = 100
         self.y_offset = 80

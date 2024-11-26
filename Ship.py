@@ -8,12 +8,12 @@ class Ship:
         self.canvas = canvas
         #self.ship = self.canvas.create_rectangle(0, 0, 50, 30, fill="blue")
         original = Image.open("images/ship.png")
-        resized = original.resize((50, 60))
+        resized = original.resize((40, 50))
         self.image = ImageTk.PhotoImage(resized)
         self.ship = self.canvas.create_image(0, 0, image=self.image)
 
         self.speed = 4
-        self.canvas.move(self.ship, 275, 770)  # Position initiale
+        self.canvas.move(self.ship, 370, 770)  # Position initiale
         self.moving_left = False
         self.moving_right = False
         self.bullets = []  # Liste pour les balles
@@ -37,17 +37,17 @@ class Ship:
 
     def get_coords(self):
         x, y = self.canvas.coords(self.ship)
-        x1 = x - 25
-        y1 = y - 30
-        x2 = x1 + 50
-        y2 = y1 + 60
+        x1 = x - 20
+        y1 = y - 25
+        x2 = x1 + 40
+        y2 = y1 + 50
         return x1, y1, x2, y2
 
     def fire(self, event):
         # Crée une nouvelle balle à la position actuelle du vaisseau
         x1, y1, x2, y2 = self.get_coords()
 
-        if len(self.bullets) < 1:
+        if len(self.bullets) < 3:
             bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1)  # Position centrale du vaisseau
             self.bullets.append(bullet)
 
