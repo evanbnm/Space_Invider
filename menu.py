@@ -25,16 +25,32 @@ class MenuJeu(tk.Tk):
         # Ajouter un label agissant comme un bouton
         self.start = tk.Label(self, text="PLAY NEW GAME", font=("Arial", 24), bg="black", fg="lime", width=20, height=2, relief="raised", borderwidth=0)
         self.start.place(relx=0.5, rely=0.5, anchor="center")
-        
+
         #Utiliser les options de style de tkinter pour changer l'apparence au survol
         self.start.bind("<Enter>", lambda e: self.start.config(bg="lime", fg="black"))
         self.start.bind("<Leave>", lambda e: self.start.config(bg="black", fg="lime"))
         self.start.bind("<Button-1>", self.start_game)  # Simule un clic sur le bouton
-    
+
+        # Ajouter un label agissant comme un bouton
+        self.quit = tk.Label(self, text="QUIT", font=("Arial", 24), bg="black", fg="lime", width=20, height=2, relief="raised", borderwidth=0)
+        self.quit.place(relx=0.5, rely=0.6, anchor="center")
+
+        #Utiliser les options de style de tkinter pour changer l'apparence au survol
+        self.quit.bind("<Enter>", lambda e: self.quit.config(bg="lime", fg="black"))
+        self.quit.bind("<Leave>", lambda e: self.quit.config(bg="black", fg="lime"))
+        self.quit.bind("<Button-1>", self.quit_game)
+
+        
+        
     def start_game(self, event):
         self.start.config(bg="#00CC00", fg="#000000")
         self.after(150, lambda: self.start.config(bg="lime", fg="black"))
         self.after(300, self.exe)
+
+    def quit_game(self, event):
+        self.quit.config(bg="#00CC00", fg="#000000")
+        self.after(150, lambda: self.quit.config(bg="lime", fg="black"))
+        self.after(300, self.destroy)
 
     def exe(self):
         try:

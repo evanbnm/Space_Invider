@@ -3,6 +3,7 @@ from tkinter import messagebox
 import random
 import subprocess
 import sys
+from PIL import Image, ImageTk
 
 from AlienGroup import AlienGroup
 from Ship import Ship
@@ -16,9 +17,11 @@ class Game:
     def __init__(self, root):
         self.root = root
 
-        self.canvas = tk.Canvas(root, bg="black")
         self.screen_width = root.winfo_screenwidth()
-        self.screen_height = root.winfo_screenheight() 
+        self.screen_height = root.winfo_screenheight()
+
+
+        self.canvas = tk.Canvas(self.root, bg="black")
         self.canvas.config(width=self.screen_width * 0.5 , height=self.screen_height * 0.85)
         self.canvas.config(highlightthickness=0)
         self.canvas.pack()
@@ -35,21 +38,24 @@ class Game:
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Menu", menu=self.file_menu)
         self.file_menu.add_command(label="New Game", command=self.start_game)
-        self.file_menu.add_command(label="Quit", command=self.quit_game)
+        self.file_menu.add_command(label="Menu", command=self.quit_game)
         self.file_menu.add_command(label="About", command=self.show_about)
         
         self.running = True
         self.loop_id = None  # Attribut pour stocker l'ID de la boucle
         self.bonus_exist = False
 
-        self.buttonQuit = Button(self.frame, "Quit", self.exe, 'right')
+        self.buttonQuit = Button(self.frame, "Menu", self.exe, 'right')
         self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
 
         self.score = Score(self.frame)  
 
         self.life = Life(self.frame)
 
-        self.root.after(500,self.start_game)
+        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="SPACE INVADERS", fill="lime", font=("Arial", 50))
+
+
+        self.root.after(2000,self.start_game)
 
     
 
@@ -221,7 +227,7 @@ class Game:
                 self.bonus = BonusAlien(self.canvas, 0, 30, direction)
             else:
                 self.bonus = BonusAlien(self.canvas, 700, 30, direction)
-            time = random.randint(10000, 15000)
+            time = random.randint(15000, 20000)
             self.root.after(time, lambda: self.bonus_alien())
     
     def check_collision_bonus(self):
@@ -239,13 +245,13 @@ class Game:
     def is_game_over(self, aliens_group, ship):
         if self.life.lives == 0:
             self.canvas.delete("all")
-            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="Game Over", fill="red", font=("Arial", 50))
+            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
             self.running = False
         for row in aliens_group.aliens:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
                     self.canvas.delete("all")
-                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="Game Over", fill="red", font=("Arial", 50))
+                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
                     self.running = False
 
     def is_win(self, aliens_group):
@@ -254,7 +260,7 @@ class Game:
                 return False
         self.score.add(300 + 200 * self.life.lives)
         self.canvas.delete("all")
-        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="You Win", fill="lime", font=("Arial", 50))
+        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
         self.running = False
         
         

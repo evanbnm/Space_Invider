@@ -25,6 +25,7 @@ class Ship:
         self.canvas.bind_all("<KeyRelease-Right>", self.stop_move)
         self.canvas.bind_all("<space>", self.fire)
 
+
     def start_move_left(self, event):
         self.moving_left = True
 
