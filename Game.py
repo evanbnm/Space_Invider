@@ -44,6 +44,7 @@ class Game:
         self.running = True
         self.loop_id = None  # Attribut pour stocker l'ID de la boucle
         self.bonus_exist = False
+        self.end = False
 
         self.buttonQuit = Button(self.frame, "Menu", self.exe, 'right')
         self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
@@ -93,8 +94,11 @@ class Game:
 
         # Annule l'appel précédent de main_loop si il existe
         if self.loop_id:
-            self.root.after_cancel(self.root.after(1))
+            if not self.end:
+                self.root.after_cancel(self.root.after(1))
             self.root.after_cancel(self.loop_id)
+            self.loop_id = None
+            self.end = False
 
         # Relance la boucle principale
         self.main_loop(True)
@@ -244,24 +248,31 @@ class Game:
     
     def is_game_over(self, aliens_group, ship):
         if self.life.lives == 0:
+            self.running = False
+            self.end = True
             self.canvas.delete("all")
             self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
-            self.running = False
         for row in aliens_group.aliens:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
+                    self.running = False
+                    self.end = True
                     self.canvas.delete("all")
                     self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
-                    self.running = False
+                    
 
     def is_win(self, aliens_group):
         for row in aliens_group.aliens:
             if len(row):
-                return False
+                return 
+        self.running = False
+        self.end = True
         self.score.add(300 + 200 * self.life.lives)
         self.canvas.delete("all")
         self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
-        self.running = False
+
+        
+
         
         
             

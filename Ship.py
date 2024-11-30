@@ -6,7 +6,6 @@ from Bullet import Bullet
 class Ship:
     def __init__(self, canvas):
         self.canvas = canvas
-        #self.ship = self.canvas.create_rectangle(0, 0, 50, 30, fill="blue")
         original = Image.open("images/ship.png")
         resized = original.resize((40, 50))
         self.image = ImageTk.PhotoImage(resized)
@@ -14,27 +13,18 @@ class Ship:
 
         self.speed = 4
         self.canvas.move(self.ship, 370, 770)  # Position initiale
-        self.moving_left = False
-        self.moving_right = False
+        self.pressed_keys = set()
         self.bullets = []  # Liste pour les balles
 
         # Écoute des touches
-        self.canvas.bind_all("<Left>", self.start_move_left)
-        self.canvas.bind_all("<Right>", self.start_move_right)
-        self.canvas.bind_all("<KeyRelease-Left>", self.stop_move)
-        self.canvas.bind_all("<KeyRelease-Right>", self.stop_move)
-        self.canvas.bind_all("<space>", self.fire)
+        self.canvas.bind_all("<KeyPress>", self.on_key_press)
+        self.canvas.bind_all("<KeyRelease>", self.on_key_release)
 
+    def on_key_press(self, event):
+        self.pressed_keys.add(event.keysym)
 
-    def start_move_left(self, event):
-        self.moving_left = True
-
-    def start_move_right(self, event):
-        self.moving_right = True
-
-    def stop_move(self, event):
-        self.moving_left = False
-        self.moving_right = False
+    def on_key_release(self, event):
+        self.pressed_keys.discard(event.keysym)
 
     def get_coords(self):
         x, y = self.canvas.coords(self.ship)
@@ -44,13 +34,18 @@ class Ship:
         y2 = y1 + 50
         return x1, y1, x2, y2
 
-    def fire(self, event):
+    def fire(self):
         # Crée une nouvelle balle à la position actuelle du vaisseau
         x1, y1, x2, y2 = self.get_coords()
 
-        if len(self.bullets) < 3:
+        if len(self.bullets) < 10 and not hasattr(self, 'last_fire_time'):
             bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1)  # Position centrale du vaisseau
             self.bullets.append(bullet)
+            self.last_fire_time = self.canvas.after(200, self.reset_fire_cooldown)  # Cooldown de 500ms
+
+    def reset_fire_cooldown(self):
+        del self.last_fire_time
+            
 
     def delete(self):
         self.canvas.delete(self.ship)
@@ -62,10 +57,12 @@ class Ship:
         x1, y1, x2, y2 = self.get_coords()
 
         # Empêche le vaisseau de sortir des limites
-        if self.moving_left and x1 > 0:
+        if 'Left' in self.pressed_keys and x1 > 0:
             self.canvas.move(self.ship, -self.speed, 0)
-        if self.moving_right and x2 < self.canvas.winfo_width():
+        if 'Right' in self.pressed_keys and x2 < self.canvas.winfo_width():
             self.canvas.move(self.ship, self.speed, 0)
+        if 'space' in self.pressed_keys:
+            self.fire()
 
         # Met à jour toutes les balles
         for bullet in self.bullets[:]:
