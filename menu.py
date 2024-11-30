@@ -3,6 +3,8 @@ from PIL import Image, ImageTk
 import subprocess
 import sys
 
+from LabelButton import LabelButton
+
 class MenuJeu(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -22,35 +24,38 @@ class MenuJeu(tk.Tk):
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
         
-        # Ajouter un label agissant comme un bouton
-        self.start = tk.Label(self, text="PLAY NEW GAME", font=("Arial", 24), bg="black", fg="lime", width=20, height=2, relief="raised", borderwidth=0)
+        self.start = LabelButton(self, "START", self.exe)
         self.start.place(relx=0.5, rely=0.5, anchor="center")
 
-        #Utiliser les options de style de tkinter pour changer l'apparence au survol
-        self.start.bind("<Enter>", lambda e: self.start.config(bg="lime", fg="black"))
-        self.start.bind("<Leave>", lambda e: self.start.config(bg="black", fg="lime"))
-        self.start.bind("<Button-1>", self.start_game)  # Simule un clic sur le bouton
+        self.rules = LabelButton(self, "RULES", self.show_rules)
+        self.rules.place(relx=0.5, rely=0.6, anchor="center")
 
-        # Ajouter un label agissant comme un bouton
-        self.quit = tk.Label(self, text="QUIT", font=("Arial", 24), bg="black", fg="lime", width=20, height=2, relief="raised", borderwidth=0)
-        self.quit.place(relx=0.5, rely=0.6, anchor="center")
+        self.quit = LabelButton(self, "QUIT", self.destroy)
+        self.quit.place(relx=0.5, rely=0.7, anchor="center")
 
-        #Utiliser les options de style de tkinter pour changer l'apparence au survol
-        self.quit.bind("<Enter>", lambda e: self.quit.config(bg="lime", fg="black"))
-        self.quit.bind("<Leave>", lambda e: self.quit.config(bg="black", fg="lime"))
-        self.quit.bind("<Button-1>", self.quit_game)
+        self.title = Image.open("images/title.png")
+        self.title = self.title.resize((600, 250))
+        self.title_photo = ImageTk.PhotoImage(self.title)
+        self.canvas.create_image(self.winfo_screenwidth() // 2, 250, image=self.title_photo)
 
-        
-        
-    def start_game(self, event):
-        self.start.config(bg="#00CC00", fg="#000000")
-        self.after(150, lambda: self.start.config(bg="lime", fg="black"))
-        self.after(300, self.exe)
 
-    def quit_game(self, event):
-        self.quit.config(bg="#00CC00", fg="#000000")
-        self.after(150, lambda: self.quit.config(bg="lime", fg="black"))
-        self.after(300, self.destroy)
+    def show_rules(self):
+        rules = tk.Toplevel(self)
+        rules.title("Rules")
+        rules.geometry("400x400")
+        rules.configure(bg="black")
+        rules_text = tk.Label(rules, text="Space Invaders\n\n"
+                                         "Controls:\n"
+                                         "Use the arrow keys to move the ship\n"
+                                         "Press the space bar to shoot\n\n"
+                                         "Objective:\n"
+                                         "Destroy all the aliens before they reach the bottom\n"
+                                         "of the screen\n\n"
+                                         "Good luck!", font=("Arial", 14), bg="black", fg="lime")
+        rules_text.pack(expand=True, fill="both")
+        close = LabelButton(rules, "Close", rules.destroy)
+        close.place(relx=0.5, rely=0.9, anchor="center")
+
 
     def exe(self):
         try:

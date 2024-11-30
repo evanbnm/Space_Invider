@@ -3,15 +3,14 @@ from tkinter import messagebox
 import random
 import subprocess
 import sys
-from PIL import Image, ImageTk
 
 from AlienGroup import AlienGroup
 from Ship import Ship
 from Life import Life
 from Score import Score
-from Button import Button
 from Wall import Wall
 from BonusAlien import BonusAlien
+from LabelButton import LabelButton
 
 class Game:
     def __init__(self, root):
@@ -38,25 +37,30 @@ class Game:
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Menu", menu=self.file_menu)
         self.file_menu.add_command(label="New Game", command=self.start_game)
-        self.file_menu.add_command(label="Menu", command=self.quit_game)
+        self.file_menu.add_command(label="Quit", command=self.quit_game)
         self.file_menu.add_command(label="About", command=self.show_about)
         
         self.running = True
         self.loop_id = None  # Attribut pour stocker l'ID de la boucle
         self.bonus_exist = False
         self.end = False
+        self.stage = 1
 
-        self.buttonQuit = Button(self.frame, "Menu", self.exe, 'right')
-        self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
+        #self.buttonQuit = Button(self.frame, "Menu", self.exe, 'right')
+        #self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
+
+        self.buttonQuit = LabelButton(self.frame, "Menu", self.exe)
+        self.buttonQuit.config(width=10, height=2)
+        self.buttonQuit.place(relx=0.8, rely=0.5, anchor="center")
+        self.buttonStart = LabelButton(self.frame, "Restart", self.start_game)
+        self.buttonStart.config(width=10, height=2)
+        self.buttonStart.place(relx=0.2, rely=0.5, anchor="center")
 
         self.score = Score(self.frame)  
 
         self.life = Life(self.frame)
 
-        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="SPACE INVADERS", fill="lime", font=("Arial", 50))
-
-
-        self.root.after(2000,self.start_game)
+        self.start_game()
 
     
 
@@ -79,9 +83,13 @@ class Game:
             print("Le fichier 'autre_script.py' est introuvable.")
 
     def start_game(self):
+
+        
         self.running = False
         self.bonus_exist = False
         self.canvas.delete("all")
+        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.root.after(2000, lambda: self.canvas.delete(self.title))
         self.ship = Ship(self.canvas)
         self.life.reset()
         self.score.reset()
@@ -93,7 +101,7 @@ class Game:
         self.running = True
 
         # Annule l'appel précédent de main_loop si il existe
-        if self.loop_id:
+        if self.loop_id:  
             if not self.end:
                 self.root.after_cancel(self.root.after(1))
             self.root.after_cancel(self.loop_id)
@@ -256,7 +264,7 @@ class Game:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
                     self.running = False
-                    self.end = True
+                    self.end = True 
                     self.canvas.delete("all")
                     self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
                     
@@ -270,6 +278,16 @@ class Game:
         self.score.add(300 + 200 * self.life.lives)
         self.canvas.delete("all")
         self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
+        self.continueButton = LabelButton(self.canvas, "Continue", self.next_stage)
+        self.continueButton.place(relx=0.5, rely=0.7, anchor="center")
+        self.continueButton.config(width=10, height=2)
+
+    def next_stage(self):
+        self.continueButton.destroy()
+        self.canvas.delete("all")
+        self.stage += 1
+        self.start_game()
+
 
         
 
