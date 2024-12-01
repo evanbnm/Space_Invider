@@ -11,6 +11,8 @@ from Score import Score
 from Wall import Wall
 from BonusAlien import BonusAlien
 from LabelButton import LabelButton
+from SkillPoint import SkillPoint
+from Leaderboard import Leaderboard
 
 class Game:
     def __init__(self, root):
@@ -56,9 +58,17 @@ class Game:
         self.buttonStart.config(width=10, height=2)
         self.buttonStart.place(relx=0.2, rely=0.5, anchor="center")
 
+        self.life = Life(self.frame)
+
         self.score = Score(self.frame)  
 
-        self.life = Life(self.frame)
+        self.skill = SkillPoint(self.frame, self.canvas)
+
+        self.leaderboard = Leaderboard(self.canvas, self.frame)
+
+        
+
+        
 
         self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
 
@@ -90,7 +100,7 @@ class Game:
         self.canvas.delete("all")
         self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
         self.root.after(1000, lambda: self.canvas.delete(self.title))
-        self.ship = Ship(self.canvas)
+        self.ship = Ship(self.canvas, self.skill.max_bullets, self.skill.time_bullets)
 
         self.aliens_group = AlienGroup(self.canvas)
         self.wall_right = Wall(self.canvas, 450, 600)
@@ -112,6 +122,8 @@ class Game:
     def restart_game(self):
         self.score.reset()
         self.life.reset()
+        self.skill.reset()
+        self.stage = 1
         self.start_game()
         
 
@@ -263,6 +275,10 @@ class Game:
             self.end = True
             self.canvas.delete("all")
             self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
+            final_score = self.score.get_score()
+            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
+            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
+            self.leaderboard.enter_pseudo(final_score)
         for row in aliens_group.aliens:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
@@ -270,6 +286,10 @@ class Game:
                     self.end = True 
                     self.canvas.delete("all")
                     self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
+                    final_score = self.score.get_score()
+                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
+                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 80, text="Enter your pseudo", fill="red", font=("Arial", 30))
+                    self.leaderboard.enter_pseudo(final_score)
                     
 
     def is_win(self, aliens_group):
@@ -278,15 +298,37 @@ class Game:
                 return 
         self.running = False
         self.end = True
+        self.skill.add_point()
         self.score.add(300 + 200 * self.life.lives)
         self.canvas.delete("all")
-        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
+
+        self.win_label = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
+        
         self.continueButton = LabelButton(self.canvas, "Continue", self.next_stage)
-        self.continueButton.place(relx=0.5, rely=0.7, anchor="center")
-        self.continueButton.config(width=10, height=2)
+        self.continueButton.place(relx=0.5, rely=0.8, anchor="center")
+        self.continueButton.config(width=10, height=3)
+
+        self.rate_button = LabelButton(self.canvas, "Upgrade rate\nLevel " + str(self.skill.level_rate), self.upgrade_rate)
+        self.rate_button.place(relx=0.2, rely=0.8, anchor="center")
+        self.rate_button.config(width=15, height=3)
+
+        self.bullet_button = LabelButton(self.canvas, "Upgrade bullets\nLevel " + str(self.skill.level_bullets), self.upgrade_bullets)
+        self.bullet_button.place(relx=0.8, rely=0.8, anchor="center")
+        self.bullet_button.config(width=15, height=3)
+
+
+    def upgrade_rate(self):
+        self.skill.upgrade_rate()
+        self.rate_button.config(text="Upgrade rate\nLevel " + str(self.skill.level_rate))
+
+    def upgrade_bullets(self):
+        self.skill.upgrade_bullets()
+        self.bullet_button.config(text="Upgrade bullets\nLevel " + str(self.skill.level_bullets))
 
     def next_stage(self):
         self.continueButton.destroy()
+        self.rate_button.destroy()
+        self.bullet_button.destroy()
         self.canvas.delete("all")
         self.stage += 1
         self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))

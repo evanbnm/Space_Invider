@@ -5,7 +5,7 @@ class Life:
         self.root = root
         self.lives = 3
         self.label = tk.Label(root, text="Lives: " + str(self.lives), bg="black", fg="lime")
-        self.label.config(font=("Arial", 30))
+        self.label.config(font=("Arial", 25))
         self.label.pack(side="top")
 
     def update(self):

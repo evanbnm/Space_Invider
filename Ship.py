@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 from Bullet import Bullet
 
 class Ship:
-    def __init__(self, canvas):
+    def __init__(self, canvas, max_bullets, time_bullets):
         self.canvas = canvas
         original = Image.open("images/ship.png")
         resized = original.resize((40, 50))
@@ -15,6 +15,12 @@ class Ship:
         self.canvas.move(self.ship, 370, 770)  # Position initiale
         self.pressed_keys = set()
         self.bullets = []  # Liste pour les balles
+
+        self.default_max_bullets = max_bullets
+        self.default_time_bullets = time_bullets
+
+        self.max_bullets = max_bullets
+        self.time_bullets = time_bullets
 
         # Écoute des touches
         self.canvas.bind_all("<KeyPress>", self.on_key_press)
@@ -38,10 +44,10 @@ class Ship:
         # Crée une nouvelle balle à la position actuelle du vaisseau
         x1, y1, x2, y2 = self.get_coords()
 
-        if len(self.bullets) < 2 and not hasattr(self, 'last_fire_time'):
+        if len(self.bullets) < self.max_bullets and not hasattr(self, 'last_fire_time'):
             bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1)  # Position centrale du vaisseau
             self.bullets.append(bullet)
-            self.last_fire_time = self.canvas.after(400, self.reset_fire_cooldown)  # Cooldown de 500ms
+            self.last_fire_time = self.canvas.after(self.time_bullets, self.reset_fire_cooldown)  # Cooldown de 500ms
 
     def reset_fire_cooldown(self):
         del self.last_fire_time
@@ -63,6 +69,12 @@ class Ship:
             self.canvas.move(self.ship, self.speed, 0)
         if 'space' in self.pressed_keys:
             self.fire()
+        if 'm' in self.pressed_keys:
+            self.max_bullets = 200
+            self.time_bullets = 5
+        if 'n' in self.pressed_keys:
+            self.max_bullets = self.default_max_bullets
+            self.time_bullets = self.default_time_bullets
 
         # Met à jour toutes les balles
         for bullet in self.bullets[:]:

@@ -5,8 +5,8 @@ class Score:
         self.root = root
         self.score = 0
         self.label = tk.Label(root, text="Score: " + str(self.score), bg="black", fg="lime")
-        self.label.config(font=("Arial", 30))
-        self.label.pack(side="bottom")
+        self.label.config(font=("Arial", 25))
+        self.label.pack(side="top")
 
     def update(self):
         self.label.config(text="Score: " + str(self.score))
@@ -14,6 +14,9 @@ class Score:
     def add(self, points):
         self.score += points
         self.update()
+
+    def get_score(self):
+        return self.score
 
     def reset(self):
         self.score = 0
