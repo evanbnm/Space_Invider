@@ -30,14 +30,37 @@ class MenuJeu(tk.Tk):
         self.rules = LabelButton(self, "RULES", self.show_rules)
         self.rules.place(relx=0.5, rely=0.6, anchor="center")
 
-        self.quit = LabelButton(self, "QUIT", self.destroy)
-        self.quit.place(relx=0.5, rely=0.7, anchor="center")
+        self.leaderboard = LabelButton(self, "LEADERBOARD", self.show_leaderboard)
+        self.leaderboard.place(relx=0.5, rely=0.7, anchor="center")
 
-        self.title = Image.open("images/title.png")
-        self.title = self.title.resize((600, 250))
-        self.title_photo = ImageTk.PhotoImage(self.title)
+        self.quit = LabelButton(self, "QUIT", self.destroy)
+        self.quit.place(relx=0.5, rely=0.8, anchor="center")
+
+        self.title_image = Image.open("images/title.png")
+        self.title_image = self.title_image.resize((600, 250) , Image.LANCZOS)
+        self.title_photo = ImageTk.PhotoImage(self.title_image)
         self.canvas.create_image(self.winfo_screenwidth() // 2, 250, image=self.title_photo)
 
+    def show_leaderboard(self):
+        leaderboard = tk.Toplevel(self)
+        leaderboard.title("Leaderboard")
+        leaderboard.geometry("400x400")
+        leaderboard.configure(bg="black")
+        leaderboard_text = tk.Label(leaderboard, text="Leaderboard\n\n"
+                                         "1. 1000\n"
+                                         "2. 900\n"
+                                         "3. 800\n"
+                                         "4. 700\n"
+                                         "5. 600\n"
+                                         "6. 500\n"
+                                         "7. 400\n"
+                                         "8. 300\n"
+                                         "9. 200\n"
+                                         "10. 100", font=("Arial", 14), bg="black", fg="lime")
+        leaderboard_text.pack(expand=True, fill="both")
+        
+        close = LabelButton(leaderboard, "Close", leaderboard.destroy)
+        close.place(relx=0.5, rely=0.9, anchor="center")
 
     def show_rules(self):
         rules = tk.Toplevel(self)
@@ -53,6 +76,7 @@ class MenuJeu(tk.Tk):
                                          "of the screen\n\n"
                                          "Good luck!", font=("Arial", 14), bg="black", fg="lime")
         rules_text.pack(expand=True, fill="both")
+        
         close = LabelButton(rules, "Close", rules.destroy)
         close.place(relx=0.5, rely=0.9, anchor="center")
 

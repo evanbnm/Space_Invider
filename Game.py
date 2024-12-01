@@ -36,7 +36,7 @@ class Game:
 
         self.file_menu = tk.Menu(self.menu, tearoff=0)
         self.menu.add_cascade(label="Menu", menu=self.file_menu)
-        self.file_menu.add_command(label="New Game", command=self.start_game)
+        self.file_menu.add_command(label="New Game", command=self.restart_game)
         self.file_menu.add_command(label="Quit", command=self.quit_game)
         self.file_menu.add_command(label="About", command=self.show_about)
         
@@ -52,7 +52,7 @@ class Game:
         self.buttonQuit = LabelButton(self.frame, "Menu", self.exe)
         self.buttonQuit.config(width=10, height=2)
         self.buttonQuit.place(relx=0.8, rely=0.5, anchor="center")
-        self.buttonStart = LabelButton(self.frame, "Restart", self.start_game)
+        self.buttonStart = LabelButton(self.frame, "Restart", self.restart_game)
         self.buttonStart.config(width=10, height=2)
         self.buttonStart.place(relx=0.2, rely=0.5, anchor="center")
 
@@ -60,9 +60,10 @@ class Game:
 
         self.life = Life(self.frame)
 
-        self.start_game()
+        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
 
-    
+        self.root.after(1000, lambda: self.start_game())
+            
 
     def show_about(self):
         messagebox.showinfo("About", "Space Invaders Game\nCreated by Evan and Mathis")
@@ -84,15 +85,12 @@ class Game:
 
     def start_game(self):
 
-        
         self.running = False
         self.bonus_exist = False
         self.canvas.delete("all")
         self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
-        self.root.after(2000, lambda: self.canvas.delete(self.title))
+        self.root.after(1000, lambda: self.canvas.delete(self.title))
         self.ship = Ship(self.canvas)
-        self.life.reset()
-        self.score.reset()
 
         self.aliens_group = AlienGroup(self.canvas)
         self.wall_right = Wall(self.canvas, 450, 600)
@@ -110,6 +108,11 @@ class Game:
 
         # Relance la boucle principale
         self.main_loop(True)
+
+    def restart_game(self):
+        self.score.reset()
+        self.life.reset()
+        self.start_game()
         
 
     def main_loop(self, firstLoop = False):
@@ -286,7 +289,8 @@ class Game:
         self.continueButton.destroy()
         self.canvas.delete("all")
         self.stage += 1
-        self.start_game()
+        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.root.after(1000, lambda: self.start_game())
 
 
         

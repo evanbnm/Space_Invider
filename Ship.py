@@ -38,10 +38,10 @@ class Ship:
         # Crée une nouvelle balle à la position actuelle du vaisseau
         x1, y1, x2, y2 = self.get_coords()
 
-        if len(self.bullets) < 400 and not hasattr(self, 'last_fire_time'):
+        if len(self.bullets) < 2 and not hasattr(self, 'last_fire_time'):
             bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1)  # Position centrale du vaisseau
             self.bullets.append(bullet)
-            self.last_fire_time = self.canvas.after(1, self.reset_fire_cooldown)  # Cooldown de 500ms
+            self.last_fire_time = self.canvas.after(400, self.reset_fire_cooldown)  # Cooldown de 500ms
 
     def reset_fire_cooldown(self):
         del self.last_fire_time
