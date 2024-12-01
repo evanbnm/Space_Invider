@@ -46,19 +46,18 @@ class MenuJeu(tk.Tk):
         leaderboard.title("Leaderboard")
         leaderboard.geometry("400x400")
         leaderboard.configure(bg="black")
-        leaderboard_text = tk.Label(leaderboard, text="Leaderboard\n\n"
-                                         "1. 1000\n"
-                                         "2. 900\n"
-                                         "3. 800\n"
-                                         "4. 700\n"
-                                         "5. 600\n"
-                                         "6. 500\n"
-                                         "7. 400\n"
-                                         "8. 300\n"
-                                         "9. 200\n"
-                                         "10. 100", font=("Arial", 14), bg="black", fg="lime")
+        leaderboard_text = tk.Text(leaderboard, bg="black", fg="lime", font=("Arial", 14))
         leaderboard_text.pack(expand=True, fill="both")
         
+        unique_entries = set()
+        with open("data/leaderboard.txt", "r") as file:
+            for line in file:
+                pseudo, score = line.strip().split() #regarder pour split avec un espace
+                if pseudo not in unique_entries:
+                    leaderboard_text.insert(tk.END, f"{pseudo} {score}\n")
+                    unique_entries.add(pseudo)
+        
+
         close = LabelButton(leaderboard, "Close", leaderboard.destroy)
         close.place(relx=0.5, rely=0.9, anchor="center")
 
