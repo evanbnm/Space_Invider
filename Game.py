@@ -84,14 +84,9 @@ class Game:
 
     def exe(self):
         self.running = False
-        try:
-            self.root.destroy()  # Fermer la fenêtre actuelle
-            # Utiliser l'interpréteur Python actuel
-            subprocess.Popen([sys.executable, "menu.py"])
-        except subprocess.CalledProcessError as e:
-            print(f"Erreur lors de l'exécution : {e}")
-        except FileNotFoundError:
-            print("Le fichier 'autre_script.py' est introuvable.")
+        self.root.destroy()  # Fermer la fenêtre actuelle 
+        subprocess.Popen([sys.executable, "menu.py"]) # Utiliser l'interpréteur Python actuel
+
 
     def start_game(self):
 

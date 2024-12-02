@@ -2,6 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from Bullet import Bullet
+from Menu import Menu
 
 class Ship:
     def __init__(self, canvas, max_bullets, time_bullets):
@@ -22,9 +23,18 @@ class Ship:
         self.max_bullets = max_bullets
         self.time_bullets = time_bullets
 
+        self.keybinds = {}
+        self.get_keybinds()
+
         # Écoute des touches
         self.canvas.bind_all("<KeyPress>", self.on_key_press)
         self.canvas.bind_all("<KeyRelease>", self.on_key_release)
+
+    def get_keybinds(self):
+        with open("data/keybinds.txt", "r") as file:
+            for line in file:
+                action, key = line.strip().split(" : ")
+                self.keybinds[action] = key
 
     def on_key_press(self, event):
         self.pressed_keys.add(event.keysym)
@@ -63,11 +73,11 @@ class Ship:
         x1, y1, x2, y2 = self.get_coords()
 
         # Empêche le vaisseau de sortir des limites
-        if 'Left' in self.pressed_keys and x1 > 0:
+        if self.keybinds['Move left'] in self.pressed_keys and x1 > 0:
             self.canvas.move(self.ship, -self.speed, 0)
-        if 'Right' in self.pressed_keys and x2 < self.canvas.winfo_width():
+        if self.keybinds['Move right'] in self.pressed_keys and x2 < self.canvas.winfo_width():
             self.canvas.move(self.ship, self.speed, 0)
-        if 'space' in self.pressed_keys:
+        if self.keybinds['Shoot'] in self.pressed_keys:
             self.fire()
         if 'm' in self.pressed_keys:
             self.max_bullets = 200

@@ -24,5 +24,8 @@ class LabelButton:
     
     def destroy(self):
         self.label.destroy()
+    
+    def update_label(self, new_text):
+        self.label.config(text=new_text)
 
     
