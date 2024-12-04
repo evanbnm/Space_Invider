@@ -4,14 +4,15 @@ import tkinter as tk
 from Bullet import Bullet
 
 class Alien:
-    def __init__(self, canvas, x, y):
+    def __init__(self, canvas, x, y, alien_group):
         self.canvas = canvas
         self.is_visible = True
+        self.alien_group = alien_group
         original = Image.open("images/alien.png")
         resized = original.resize((40, 30))
         self.image = ImageTk.PhotoImage(resized)
         self.alien = self.canvas.create_image(x, y, image=self.image)
-        self.bullets = []
+        self.bullets = [] 
     def move(self, speed):
         self.canvas.move(self.alien, speed, 0)
 
@@ -28,8 +29,8 @@ class Alien:
     
     def fire(self):
         x1, y1, x2, y2 = self.get_coords()
-        bullet = Bullet(self.canvas, (x1 + x2) / 2, y2 + 5, 1)
-        self.bullets.append(bullet)
+        bullet = Bullet(self.canvas, (x1 + x2) / 2, y2 + 5, 1, self, True)
+        self.alien_group.bullets.append(bullet)
 
     def delete(self):
         self.canvas.delete(self.alien)

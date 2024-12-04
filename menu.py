@@ -85,4 +85,4 @@ class Menu(tk.Tk):
 # Exécution du programme
 if __name__ == "__main__":
     menu = Menu()
-    menu.mainloop()
+    menu.mainloop() 

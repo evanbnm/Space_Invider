@@ -1,11 +1,12 @@
 import tkinter as tk
 from PIL import Image, ImageTk
-
 class Bullet:
-    def __init__(self, canvas, x, y, direction):
+    def __init__(self, canvas, x, y, direction, alien, isEnnemy=False):
+        self.isEnnemy = isEnnemy
         self.canvas = canvas
         self.speed = 7
         self.direction = direction
+        self.alien = alien
         original = Image.open("images/bullet.png")
         resized = original.resize((12, 30))
         if self.direction == 1:
@@ -26,4 +27,9 @@ class Bullet:
         return x1, y1, x2, y2
 
     def delete(self):
-        self.canvas.delete(self.bullet)
+        if self in self.alien.bullets:
+            self.alien.bullets.remove(self)
+        elif self.isEnnemy and self in self.alien.alien_group.bullets:
+            self.alien.alien_group.bullets.remove(self)
+
+        #self.canvas.delete(self.bullet)

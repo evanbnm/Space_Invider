@@ -2,15 +2,16 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 class Brick:
-    def __init__(self, canvas, x, y):
+    def __init__(self, canvas, x, y, wall):
         self.canvas = canvas
+        self.wall = wall
         original = Image.open("images/brick.png")
         resized = original.resize((36, 36))
         self.image = ImageTk.PhotoImage(resized)
         self.brick = self.canvas.create_image(x, y, image=self.image)
 
     def delete(self):
-        self.canvas.delete(self.brick)
+        self.wall.brick.remove(self)
 
     def get_coords(self):
         x, y = self.canvas.coords(self.brick)

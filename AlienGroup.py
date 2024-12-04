@@ -11,6 +11,7 @@ class AlienGroup:
         self.y_offset = 80
         self.row = 5
         self.col = 8
+        self.bullets = []
         self.create_aliens()
 
     def create_aliens(self):
@@ -18,7 +19,7 @@ class AlienGroup:
         for col in range(self.col):  # 3 lignes d'aliens
             l = []
             for row in range(self.row):  # 5 aliens par ligne 
-                alien = Alien(self.canvas, self.x_offset + col * 60, self.y_offset + row * 60)
+                alien = Alien(self.canvas, self.x_offset + col * 60, self.y_offset + row * 60, self)
                 l.append(alien)
             self.aliens.append(l)
 
@@ -47,7 +48,12 @@ class AlienGroup:
         if xr >= self.canvas.winfo_width():
             self.direction *= -1
 
-
+    def update_bullets(self):
+        for bullet in self.bullets[:]:
+            bullet.move()
+            if bullet.get_coords()[1] > 900:  # Si la balle sort de l'écran
+                #bullet.delete()
+                self.bullets.remove(bullet)
 
     def update(self):
         self.move()
@@ -56,6 +62,8 @@ class AlienGroup:
         for row in self.aliens:
             if len(row) == 0:
                 self.aliens.remove(row)
+        self.update_bullets()
+        
     
     def delete(self):
         for row in self.aliens:

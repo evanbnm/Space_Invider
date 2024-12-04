@@ -58,7 +58,7 @@ class Ship:
         x1, y1, x2, y2 = self.get_coords()
 
         if len(self.bullets) < self.max_bullets and not hasattr(self, 'last_fire_time'):
-            bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1)  # Position centrale du vaisseau
+            bullet = Bullet(self.canvas, (x1 + x2) / 2, y1 - 5, -1, self)  # Position centrale du vaisseau
             self.bullets.append(bullet)
             self.last_fire_time = self.canvas.after(self.time_bullets, self.reset_fire_cooldown)  # Cooldown de 500ms
 
@@ -106,4 +106,4 @@ class Ship:
             bullet.move()
             if bullet.get_coords()[1] < 0:  # Si la balle sort de l'écran
                 bullet.delete()
-                self.bullets.remove(bullet)
+                #self.bullets.remove(bullet)

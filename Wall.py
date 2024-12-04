@@ -11,7 +11,7 @@ class Wall:
     def create(self):
         for i in range(6):
             for j in range(4):
-                brick = Brick(self.canvas, self.x + i * 36, self.y + j * 36)
+                brick = Brick(self.canvas, self.x + i * 36, self.y + j * 36, self)
                 self.brick.append(brick)
 
 

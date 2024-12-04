@@ -132,6 +132,7 @@ class Game:
         self.life.reset()
         self.skill.reset()
         self.stage = 1
+
         self.start_game()
         
 
@@ -169,92 +170,73 @@ class Game:
             
     
     def check_collisions(self):
-        
-        bullets_to_remove = []
         aliens_to_remove = []
         bricks_to_remove = []
-        bonus_to_remove = []
 
         for bullet in self.ship.bullets:
             for row in self.aliens_group.aliens:
                 for alien in row:
                     if self.is_collision(bullet, alien):
-                        bullets_to_remove.append(bullet)
+                        bullet.delete()
                         aliens_to_remove.append(alien)
                         self.score.add(25)
             for brick in self.wall_right.brick:
                 if self.is_collision(bullet, brick):
-                    bullets_to_remove.append(bullet)
-                    bricks_to_remove.append(brick)
+                    bullet.delete()
+                    brick.delete()
                     self.score.add(-100)
             for brick in self.wall_left.brick:
                 if self.is_collision(bullet, brick):
-                    bullets_to_remove.append(bullet)
-                    bricks_to_remove.append(brick)
+                    bullet.delete()
+                    brick.delete()
                     self.score.add(-100)
             if self.bonus_exist:
                 if self.is_collision(bullet, self.bonus):
-                    bullets_to_remove.append(bullet)
+                    bullet.delete()
                     self.bonus.delete()
                     self.bonus_exist = False
                     self.score.add(150)
                     self.skill.add_point()
+        
+        for bullet in self.aliens_group.bullets:
+            if self.is_collision(bullet, self.ship):
+                bullet.delete()
+                self.life.lose_life()
+                break
+            for brick in self.wall_right.brick:
+                if self.is_collision(bullet, brick):
+                    bullet.delete()
+                    brick.delete()
+
+            for brick in self.wall_left.brick:
+                if self.is_collision(bullet, brick):
+                    bullet.delete()
+                    brick.delete()
 
         for row in self.aliens_group.aliens:
             for alien in row:
-                for bullet in alien.bullets:
-                    if self.is_collision(bullet, self.ship):
-                        bullets_to_remove.append(bullet)
-                        self.life.lose_life()
-                        break
-                    for brick in self.wall_right.brick:
-                        if self.is_collision(bullet, brick):
-                            bullets_to_remove.append(bullet)
-                            bricks_to_remove.append(brick)
-    
-                    for brick in self.wall_left.brick:
-                        if self.is_collision(bullet, brick):
-                            bullets_to_remove.append(bullet)
-                            bricks_to_remove.append(brick)
-                        
                 for brick in self.wall_right.brick:
                     if self.is_collision(alien, brick):
                         if brick not in bricks_to_remove:
-                            bricks_to_remove.append(brick)
+                            brick.delete()
                         
                 for brick in self.wall_left.brick:
                     if self.is_collision(alien, brick):
                         if brick not in bricks_to_remove:
-                            bricks_to_remove.append(brick)
-
-            
-        # Supprime les balles et aliens marqués
-        for bullet in bullets_to_remove:
-            bullet.delete()
-            if bullet in self.ship.bullets:
-                self.ship.bullets.remove(bullet)
-            else:
-                for row in self.aliens_group.aliens:
-                    for alien in row:
-                        if bullet in alien.bullets:
-                            alien.bullets.remove(bullet)
-
-
+                            brick.delete()
 
         for alien in aliens_to_remove:
-            #alien.hide()
-            #alien.schedule_delete()
             alien.destroy()
             for row in self.aliens_group.aliens:
                 if alien in row:
                     row.remove(alien)
 
-        for brick in bricks_to_remove:
-            brick.delete()
-            if brick in self.wall_right.brick:
-                self.wall_right.brick.remove(brick)
-            else:
-                self.wall_left.brick.remove(brick)
+        # for brick in bricks_to_remove:
+        #     brick.delete()
+        #     if brick in self.wall_right.brick:
+        #         self.wall_right.brick.remove(brick)
+        #     else:
+        #         self.wall_left.brick.remove(brick)
 
         
 
