@@ -1,33 +1,9 @@
-
-Evan 125
-Evan 25
-E 0
-Gauthier 500
-A 90
-B 100
-C 1002
-V 156
-Z 1682
-R 1282 
-P 192
-L 1820
-M 192
-AP 10
-AM 10
-AB 12
-HJ 0
-TR 279
-RG 2761
-DF 268
-F 182
-AFG 172
-BSH 128
-X 181
-W 182
-WX 172
-ZER 18
-JH 1
-CACA 180
-ZIZI 88
-
-Splash 400
+Gauthier : 500
+Splash : 400
+OUIOUI : 300
+Yariv : 1725
+Best Test : 18650
+Adélie : 125
+TEST L : 0
+Non : 7025
+l : 0

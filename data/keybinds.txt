@@ -1,3 +1,3 @@
-Move left : Left
-Move right : Right
-Shoot : space
+Move left : LEFT
+Move right : RIGHT
+Shoot : SPACE

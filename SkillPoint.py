@@ -13,7 +13,7 @@ class SkillPoint:
         self.label.pack(side="top")
         
         self.max_bullets = 2
-        self.time_bullets = 400
+        self.time_bullets = 1050
 
         self.level_bullets = 1
         self.level_rate = 1
@@ -23,10 +23,17 @@ class SkillPoint:
         self.update()
 
     def upgrade_rate(self):
+        if self.level_rate == "max":
+            self.canvas.delete("all")
+            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
+            self.canvas.after(1500, lambda: self.canvas.delete("all"))
+            return
         if self.points > 0:
-            self.time_bullets -= 50
+            self.time_bullets -= 100
             self.points -= 1
             self.level_rate += 1
+            if self.level_rate == 10:
+                self.level_rate = "max"
             self.update()
         else:
             self.canvas.delete("all")
@@ -34,10 +41,17 @@ class SkillPoint:
             self.canvas.after(1500, lambda: self.canvas.delete("all"))
 
     def upgrade_bullets(self):
+        if self.level_bullets == "max":
+            self.canvas.delete("all")
+            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
+            self.canvas.after(1500, lambda: self.canvas.delete("all"))
+            return
         if self.points > 0:
             self.max_bullets += 1
             self.points -= 1
             self.level_bullets += 1
+            if self.level_bullets == 10:
+                self.level_bullets = "max"
             self.update()
         else:
             self.canvas.delete("all")
@@ -49,6 +63,8 @@ class SkillPoint:
         self.level_bullets = 1
         self.level_rate = 1
         self.points = 0
+        self.max_bullets = 2
+        self.time_bullets = 1050
         self.update()
 
     def update(self):

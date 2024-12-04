@@ -45,11 +45,12 @@ class Game:
         self.running = True
         self.loop_id = None  # Attribut pour stocker l'ID de la boucle
         self.bonus_exist = False
+        self.bonus_id = None
         self.end = False
-        self.stage = 1
+        self.stage = 9
+        self.win = False
+        self.lose = False
 
-        #self.buttonQuit = Button(self.frame, "Menu", self.exe, 'right')
-        #self.buttonStart = Button(self.frame, "Restart", self.start_game, 'left')
 
         self.buttonQuit = LabelButton(self.frame, "Menu", self.exe)
         self.buttonQuit.config(width=10, height=2)
@@ -64,7 +65,7 @@ class Game:
 
         self.skill = SkillPoint(self.frame, self.canvas)
 
-        self.leaderboard = Leaderboard(self.canvas, self.frame)
+        self.leaderboard = Leaderboard(self.canvas, self.frame, None)
 
         
 
@@ -89,15 +90,21 @@ class Game:
 
 
     def start_game(self):
-
+        if self.bonus_id:
+            self.root.after_cancel(self.bonus_id)
+            self.bonus_id = None
+        self.win = False
+        self.lose = False
         self.running = False
         self.bonus_exist = False
         self.canvas.delete("all")
         self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
         self.root.after(1000, lambda: self.canvas.delete(self.title))
         self.ship = Ship(self.canvas, self.skill.max_bullets, self.skill.time_bullets)
-
-        self.aliens_group = AlienGroup(self.canvas)
+        if self.stage < 10:
+            self.aliens_group = AlienGroup(self.canvas, self.stage / 4 + 1.25, self.stage * 5 + 10)
+        if self.stage >= 10:
+            self.aliens_group = AlienGroup(self.canvas, 4, 60)
         self.wall_right = Wall(self.canvas, 450, 600)
         self.wall_left = Wall(self.canvas, 100, 600)
         
@@ -115,6 +122,12 @@ class Game:
         self.main_loop(True)
 
     def restart_game(self):
+        if self.lose:
+            self.leaderboard.destroy()
+        if self.win:
+            self.continueButton.destroy()
+            self.rate_button.destroy()
+            self.bullet_button.destroy()
         self.score.reset()
         self.life.reset()
         self.skill.reset()
@@ -136,10 +149,17 @@ class Game:
             if self.bonus_exist:
                 self.bonus.update()
                 self.check_collision_bonus()
-            
+
+            if self.ship.life:
+                self.life.gain_life()
+                self.ship.life = False
+
+            if self.ship.skill:
+                self.skill.add_point()
+                self.ship.skill = False
+
+            self.life.update()
             self.score.update()
-            
-            
            
             if(firstLoop):
                 self.alien_fire()
@@ -178,6 +198,7 @@ class Game:
                     self.bonus.delete()
                     self.bonus_exist = False
                     self.score.add(150)
+                    self.skill.add_point()
 
         for row in self.aliens_group.aliens:
             for alien in row:
@@ -219,8 +240,11 @@ class Game:
                             alien.bullets.remove(bullet)
 
 
+
         for alien in aliens_to_remove:
-            alien.delete()
+            #alien.hide()
+            #alien.schedule_delete()
+            alien.destroy()
             for row in self.aliens_group.aliens:
                 if alien in row:
                     row.remove(alien)
@@ -237,20 +261,25 @@ class Game:
     def alien_fire(self):
         if self.running:
             col = random.choice(self.aliens_group.aliens)
-            time = random.randint(500, 1500)
+            if self.stage < 10:
+                time = random.randint(516 - self.stage * 50, 1516 - self.stage * 100)
+            if self.stage >= 10 and self.stage < 20:
+                time = random.randint(16, 516 - self.stage * 20)
             col[-1].fire()
             self.root.after(time, lambda: self.alien_fire())
 
     def bonus_alien(self):
-        if self.running:
+        if not self.bonus_exist and self.running:
             self.bonus_exist = True
             direction = random.choice([-1,1])
             if direction == 1:
                 self.bonus = BonusAlien(self.canvas, 0, 30, direction)
             else:
                 self.bonus = BonusAlien(self.canvas, 700, 30, direction)
-            time = random.randint(15000, 20000)
-            self.root.after(time, lambda: self.bonus_alien())
+        time_bonus = random.randint(15000, 20000)
+        self.bonus_id = self.root.after(time_bonus, self.bonus_alien)
+
+            
     
     def check_collision_bonus(self):
         if self.running:
@@ -266,6 +295,7 @@ class Game:
     
     def is_game_over(self, aliens_group, ship):
         if self.life.lives == 0:
+            self.lose = True
             self.running = False
             self.end = True
             self.canvas.delete("all")
@@ -277,13 +307,14 @@ class Game:
         for row in aliens_group.aliens:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
+                    self.lose = True
                     self.running = False
                     self.end = True 
                     self.canvas.delete("all")
                     self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
                     final_score = self.score.get_score()
                     self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
-                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 80, text="Enter your pseudo", fill="red", font=("Arial", 30))
+                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
                     self.leaderboard.enter_pseudo(final_score)
                     
 
@@ -291,6 +322,9 @@ class Game:
         for row in aliens_group.aliens:
             if len(row):
                 return 
+        self.win = True
+        self.bonus.delete()
+        self.bonus_exist = False
         self.running = False
         self.end = True
         self.skill.add_point()

@@ -15,6 +15,10 @@ class Life:
         self.lives -= 1
         self.update()
 
+    def gain_life(self):
+        self.lives += 1
+        self.update()
+
     def reset(self):
         self.lives = 3
         self.update()

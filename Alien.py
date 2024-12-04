@@ -6,13 +6,12 @@ from Bullet import Bullet
 class Alien:
     def __init__(self, canvas, x, y):
         self.canvas = canvas
-        #self.alien = self.canvas.create_rectangle(x, y, x + 35, y + 25, fill="green")
+        self.is_visible = True
         original = Image.open("images/alien.png")
         resized = original.resize((40, 30))
         self.image = ImageTk.PhotoImage(resized)
         self.alien = self.canvas.create_image(x, y, image=self.image)
         self.bullets = []
-    
     def move(self, speed):
         self.canvas.move(self.alien, speed, 0)
 
@@ -34,8 +33,18 @@ class Alien:
 
     def delete(self):
         self.canvas.delete(self.alien)
-        for bullet in self.bullets:
-            bullet.delete()
+        # for bullet in self.bullets:
+        #     bullet.delete()
+    
+    def schedule_delete(self):
+        # Supprime complètement l'alien après un délai
+        self.canvas.after(5000, self.delete)
+
+    def hide(self):
+        """Masque l'alien visuellement."""
+        self.canvas.itemconfigure(self.alien, state="hidden")
+        self.is_visible = False
+        
 
     def update(self):
         for bullet in self.bullets[:]:

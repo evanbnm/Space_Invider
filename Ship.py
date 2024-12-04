@@ -2,7 +2,7 @@ import tkinter as tk
 from PIL import Image, ImageTk
 
 from Bullet import Bullet
-from Menu import Menu
+from Life import Life
 
 class Ship:
     def __init__(self, canvas, max_bullets, time_bullets):
@@ -11,6 +11,9 @@ class Ship:
         resized = original.resize((40, 50))
         self.image = ImageTk.PhotoImage(resized)
         self.ship = self.canvas.create_image(0, 0, image=self.image)
+
+        self.life = False
+        self.skill = False
 
         self.speed = 4
         self.canvas.move(self.ship, 370, 770)  # Position initiale
@@ -37,10 +40,10 @@ class Ship:
                 self.keybinds[action] = key
 
     def on_key_press(self, event):
-        self.pressed_keys.add(event.keysym)
+        self.pressed_keys.add(event.keysym.upper())
 
     def on_key_release(self, event):
-        self.pressed_keys.discard(event.keysym)
+        self.pressed_keys.discard(event.keysym.upper())
 
     def get_coords(self):
         x, y = self.canvas.coords(self.ship)
@@ -68,6 +71,9 @@ class Ship:
         for bullet in self.bullets:
             bullet.delete()
 
+    def add_life(self):
+        self.life = True
+
     def update(self):
         # Récupère les coordonnées actuelles du vaisseau
         x1, y1, x2, y2 = self.get_coords()
@@ -79,12 +85,21 @@ class Ship:
             self.canvas.move(self.ship, self.speed, 0)
         if self.keybinds['Shoot'] in self.pressed_keys:
             self.fire()
-        if 'm' in self.pressed_keys:
+        if 'M' in self.pressed_keys:
             self.max_bullets = 200
             self.time_bullets = 5
-        if 'n' in self.pressed_keys:
+        if 'N' in self.pressed_keys:
             self.max_bullets = self.default_max_bullets
             self.time_bullets = self.default_time_bullets
+        if 'L' in self.pressed_keys:
+            self.add_life()
+            self.pressed_keys.discard('L')
+        if 'P' in self.pressed_keys:
+            self.skill = True
+            self.pressed_keys.discard('P')
+
+
+        
 
         # Met à jour toutes les balles
         for bullet in self.bullets[:]:

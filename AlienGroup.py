@@ -1,10 +1,11 @@
 from Alien import Alien
 
 class AlienGroup:
-    def __init__(self, canvas):
+    def __init__(self, canvas, speed, down):
         self.canvas = canvas
         self.aliens = []
-        self.speed = 1.5
+        self.speed = speed
+        self.down = down
         self.direction = 1  # 1 = droite, -1 = gauche
         self.x_offset = 100
         self.y_offset = 80
@@ -41,7 +42,7 @@ class AlienGroup:
             
             for row in self.aliens:
                 for alien in row:
-                    self.canvas.move(alien.alien, 0, 20)  # Descend tous les aliens d'une ligne
+                    self.canvas.move(alien.alien, 0, self.down)  # Descend tous les aliens d'une ligne
 
         if xr >= self.canvas.winfo_width():
             self.direction *= -1
