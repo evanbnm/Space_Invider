@@ -122,6 +122,7 @@ class Game:
         self.main_loop(True)
 
     def restart_game(self):
+        self.end = True
         if self.lose:
             self.leaderboard.destroy()
         if self.win:
@@ -163,6 +164,7 @@ class Game:
             self.score.update()
            
             if(firstLoop):
+                print('test')
                 self.alien_fire()
                 self.bonus_alien()
             # Planifie la prochaine exécution de la boucle
