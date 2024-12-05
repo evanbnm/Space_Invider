@@ -64,12 +64,14 @@ class Menu(tk.Tk):
         rules.geometry("400x400")
         rules.configure(bg="black")
         rules_text = tk.Label(rules, text="Space Invaders\n\n"
-                                         "Controls:\n"
-                                         "Use the arrow keys to move the ship\n"
-                                         "Press the space bar to shoot\n\n"
                                          "Objective:\n"
                                          "Destroy all the aliens before they reach the bottom\n"
                                          "of the screen\n\n"
+                                        "Skills:\n"
+                                        "When you destroy an bonus alien you get a skill point\n"
+                                        "You also get a skill point when you beat a level\n"
+                                        "You can use your skill points to buy upgrades\n"
+                                        "at the end of each level\n\n"
                                          "Good luck!", font=("Arial", 30), bg="black", fg="lime")
         rules_text.pack(expand=True, fill="both")
         
@@ -78,9 +80,8 @@ class Menu(tk.Tk):
 
 
     def exe(self):
-        self.destroy()  # Fermer la fenêtre actuelle
-        # Utiliser l'interpréteur Python actuel
-        subprocess.Popen([sys.executable, "main.py"])
+        subprocess.Popen([sys.executable, "main.py"])         # Utiliser l'interpréteur Python actuel
+        self.destroy # Fermer le menu après 100 ms
 
 # Exécution du programme
 if __name__ == "__main__":

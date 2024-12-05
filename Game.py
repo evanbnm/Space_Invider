@@ -17,6 +17,7 @@ from Leaderboard import Leaderboard
 class Game:
     def __init__(self, root):
         self.root = root
+        self.root.attributes("-fullscreen", True)
 
         self.screen_width = root.winfo_screenwidth()
         self.screen_height = root.winfo_screenheight()
@@ -47,7 +48,7 @@ class Game:
         self.bonus_exist = False
         self.bonus_id = None
         self.end = False
-        self.stage = 9
+        self.stage = 1
         self.win = False
         self.lose = False
 
@@ -85,8 +86,9 @@ class Game:
 
     def exe(self):
         self.running = False
-        self.root.destroy()  # Fermer la fenêtre actuelle 
         subprocess.Popen([sys.executable, "menu.py"]) # Utiliser l'interpréteur Python actuel
+        self.root.destroy  # Fermer la fenêtre actuelle 
+        
 
 
     def start_game(self):
