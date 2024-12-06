@@ -81,8 +81,8 @@ class Menu(tk.Tk):
 
     def exe(self):
         subprocess.Popen([sys.executable, "main.py"])         # Utiliser l'interpréteur Python actuel
-        self.destroy # Fermer le menu après 100 ms
-
+        self.destroy()
+        
 # Exécution du programme
 if __name__ == "__main__":
     menu = Menu()

@@ -87,7 +87,8 @@ class Game:
     def exe(self):
         self.running = False
         subprocess.Popen([sys.executable, "menu.py"]) # Utiliser l'interpréteur Python actuel
-        self.root.destroy  # Fermer la fenêtre actuelle 
+        self.root.destroy()
+        
         
 
 
