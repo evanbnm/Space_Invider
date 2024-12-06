@@ -58,7 +58,7 @@ class Keybinds:
         def on_key_press(event):
             # Mettre à jour la touche associée à l'action
             ecriture = self.name_binds(event.keysym.upper())
-            if ecriture in self.default_keybinds.values():
+            if ecriture in self.default_keybinds.values() or ecriture == "M" or ecriture == "N" or ecriture == "P" or ecriture == "L":
                 error_label = tk.Label(keybind_window, text="Key already in use!", fg="red", bg="black", font=("Arial", 30))
                 error_label.place(relx=0.5, rely=0.2, anchor="center")
                 keybind_window.after(1000, error_label.destroy)

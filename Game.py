@@ -141,6 +141,7 @@ class Game:
         
 
     def main_loop(self, firstLoop = False):
+
         if self.running:
 
             self.ship.update()   # Mets à jour le vaisseau
@@ -167,7 +168,6 @@ class Game:
             self.score.update()
            
             if(firstLoop):
-                print('test')
                 self.alien_fire()
                 self.bonus_alien()
             # Planifie la prochaine exécution de la boucle

@@ -75,6 +75,7 @@ class Ship:
         self.life = True
 
     def update(self):
+
         # Récupère les coordonnées actuelles du vaisseau
         x1, y1, x2, y2 = self.get_coords()
 
@@ -97,6 +98,7 @@ class Ship:
         if 'P' in self.pressed_keys:
             self.skill = True
             self.pressed_keys.discard('P')
+
 
 
         
