@@ -146,9 +146,7 @@ class Game:
         
 
     def main_loop(self, firstLoop = False):
-
         if self.running:
-
             self.ship.update()
             self.aliens_group.update() 
             for row in self.aliens_group.aliens:
@@ -157,6 +155,7 @@ class Game:
             self.check_collisions()
             self.is_game_over(self.aliens_group, self.ship)
             self.is_win(self.aliens_group)
+
             if self.bonus_exist:
                 self.bonus.update()
                 self.check_collision_bonus()
@@ -180,7 +179,6 @@ class Game:
             
     
     def check_collisions(self):
-
         for bullet in self.ship.bullets:
             for row in self.aliens_group.aliens:
                 for alien in row:
@@ -257,7 +255,6 @@ class Game:
         time_bonus = random.randint(15000, 20000)
         self.bonus_id = self.root.after(time_bonus, self.bonus_alien)
 
-            
     
     def check_collision_bonus(self):
         if self.running:
@@ -273,28 +270,22 @@ class Game:
     
     def is_game_over(self, aliens_group, ship):
         if self.life.lives == 0:
-            self.lose = True
-            self.running = False
-            self.end = True
-            self.canvas.delete("all")
-            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
-            final_score = self.score.get_score()
-            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
-            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
-            self.leaderboard.enter_pseudo(final_score)
+            self.lose_game()
         for row in aliens_group.aliens:
             for alien in row:
                 if alien.get_coords()[3] >= ship.get_coords()[1]:
-                    self.lose = True
-                    self.running = False
-                    self.end = True 
-                    self.canvas.delete("all")
-                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
-                    final_score = self.score.get_score()
-                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
-                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
-                    self.leaderboard.enter_pseudo(final_score)
+                    self.lose_game()
                     
+    def lose_game(self):
+        self.lose = True
+        self.running = False
+        self.end = True
+        self.canvas.delete("all")
+        self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
+        final_score = self.score.get_score()
+        self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
+        self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
+        self.leaderboard.enter_pseudo(final_score)
 
     def is_win(self, aliens_group):
         for row in aliens_group.aliens:

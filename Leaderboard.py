@@ -19,6 +19,7 @@ class Leaderboard:
             file.write(f"{pseudo} : {score}\n")
         self.pseudo.delete(0, tk.END)
         self.pseudo.destroy()
+        
 
     def destroy(self):
         self.pseudo.destroy()
