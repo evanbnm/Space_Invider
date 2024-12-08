@@ -15,7 +15,7 @@ class Leaderboard:
 
     def add_score(self, event, score):
         pseudo = self.pseudo.get()
-        with open("data/leaderboard.txt", "a") as file:
+        with open("data/leaderboard.txt", "a", encoding="utf-8") as file:
             file.write(f"{pseudo} : {score}\n")
         self.pseudo.delete(0, tk.END)
         self.pseudo.destroy()
@@ -37,7 +37,7 @@ class Leaderboard:
 
         scores = []
         unique_entries = set()
-        with open("data/leaderboard.txt", "r") as file:
+        with open("data/leaderboard.txt", "r", encoding="utf-8") as file:
             for line in file:
                 parts = line.strip().split(" : ")
                 if len(parts) == 2:
