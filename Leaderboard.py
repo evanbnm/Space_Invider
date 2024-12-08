@@ -28,7 +28,7 @@ class Leaderboard:
         leaderboard.config(highlightthickness=0)
         leaderboard.config(borderwidth=0)
         leaderboard.title("Leaderboard")
-        leaderboard.geometry("400x400")
+        leaderboard.attributes("-fullscreen", True)
         leaderboard.configure(bg="black")
         leaderboard_text = tk.Text(leaderboard, bg="black", fg="lime", font=("Arial", 30))
         leaderboard_text.pack(expand=True, fill="both")

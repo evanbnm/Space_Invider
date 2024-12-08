@@ -61,7 +61,7 @@ class Menu(tk.Tk):
     def show_rules(self):
         rules = tk.Toplevel(self)
         rules.title("Rules")
-        rules.geometry("400x400")
+        rules.attributes("-fullscreen", True)
         rules.configure(bg="black")
         rules_text = tk.Label(rules, text="Space Invaders\n\n"
                                          "Objective:\n"
@@ -80,9 +80,9 @@ class Menu(tk.Tk):
 
 
     def exe(self):
-        subprocess.Popen([sys.executable, "main.py"])         # Utiliser l'interpréteur Python actuel
+        subprocess.Popen([sys.executable, "main.py"])        # Utiliser l'interpréteur Python actuel
         self.destroy()
-        
+
 # Exécution du programme
 if __name__ == "__main__":
     menu = Menu()

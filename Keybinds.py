@@ -12,7 +12,7 @@ class Keybinds:
     def show_keybinds(self):
         keybinds = tk.Toplevel(self.parent)
         keybinds.title("Keybinds")
-        keybinds.geometry("400x400")
+        keybinds.attributes("-fullscreen", True)
         keybinds.configure(bg="black")
 
         keybinds.focus_set()
@@ -88,7 +88,6 @@ class Keybinds:
                 key = self.name_binds(key)
                 self.default_keybinds[action] = key
         self.save_keybinds()
-
 
     def name_binds(self, name):
         if name == "SPACE":
