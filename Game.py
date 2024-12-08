@@ -140,7 +140,7 @@ class Game:
         self.life.reset()
         self.skill.reset()
         self.stage = 1
-        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.title = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
 
         self.root.after(1000, lambda: self.start_game())
         
