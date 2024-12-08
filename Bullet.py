@@ -31,5 +31,3 @@ class Bullet:
             self.alien.bullets.remove(self)
         elif self.isEnnemy and self in self.alien.alien_group.bullets:
             self.alien.alien_group.bullets.remove(self)
-
-        #self.canvas.delete(self.bullet)

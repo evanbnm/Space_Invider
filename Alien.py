@@ -6,18 +6,16 @@ from Bullet import Bullet
 class Alien:
     def __init__(self, canvas, x, y, alien_group):
         self.canvas = canvas
-        self.is_visible = True
+        self.height = canvas.winfo_height()
         self.alien_group = alien_group
         original = Image.open("images/alien.png")
         resized = original.resize((40, 30))
         self.image = ImageTk.PhotoImage(resized)
         self.alien = self.canvas.create_image(x, y, image=self.image)
         self.bullets = [] 
+
     def move(self, speed):
         self.canvas.move(self.alien, speed, 0)
-
-    def destroy(self):
-        self.canvas.delete(self.alien)
 
     def get_coords(self):
         x, y = self.canvas.coords(self.alien)
@@ -34,22 +32,10 @@ class Alien:
 
     def delete(self):
         self.canvas.delete(self.alien)
-        # for bullet in self.bullets:
-        #     bullet.delete()
-    
-    def schedule_delete(self):
-        # Supprime complètement l'alien après un délai
-        self.canvas.after(5000, self.delete)
-
-    def hide(self):
-        """Masque l'alien visuellement."""
-        self.canvas.itemconfigure(self.alien, state="hidden")
-        self.is_visible = False
         
-
     def update(self):
         for bullet in self.bullets[:]:
             bullet.move()
-            if bullet.get_coords()[1] > 900:  # Si la balle sort de l'écran
+            if bullet.get_coords()[1] > self.height:  # Si la balle sort de l'écran
                 bullet.delete()
                 self.bullets.remove(bullet)

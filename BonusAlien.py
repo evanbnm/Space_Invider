@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 class BonusAlien:
     def __init__(self, canvas, x, y, direction):
         self.canvas = canvas
-
+        self.normalize_width = canvas.winfo_width() / 1470
         original = Image.open("images/bonus.png")
         resized = original.resize((50, 30))
         self.image = ImageTk.PhotoImage(resized)
@@ -12,7 +12,7 @@ class BonusAlien:
 
         self.score = 150
         self.direction = direction
-        self.speed = 3 * self.direction
+        self.speed = self.normalize_width * 3 * self.direction
 
 
     
@@ -32,7 +32,6 @@ class BonusAlien:
 
     
     def update(self):
-        
         self.move(self.speed)
             
         

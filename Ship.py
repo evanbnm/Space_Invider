@@ -7,6 +7,9 @@ from Life import Life
 class Ship:
     def __init__(self, canvas, max_bullets, time_bullets):
         self.canvas = canvas
+        self.height = canvas.winfo_height()
+        self.width = canvas.winfo_width()
+        self.normalize_width = canvas.winfo_width() / 1470
         original = Image.open("images/ship.png")
         resized = original.resize((40, 50))
         self.image = ImageTk.PhotoImage(resized)
@@ -15,8 +18,8 @@ class Ship:
         self.life = False
         self.skill = False
 
-        self.speed = 4
-        self.canvas.move(self.ship, 370, 770)  # Position initiale
+        self.speed = self.normalize_width * 4
+        self.canvas.move(self.ship, self.width * 0.5 , self.height * 0.95)  # Position initiale
         self.pressed_keys = set()
         self.bullets = []  # Liste pour les balles
 
@@ -108,4 +111,3 @@ class Ship:
             bullet.move()
             if bullet.get_coords()[1] < 0:  # Si la balle sort de l'écran
                 bullet.delete()
-                #self.bullets.remove(bullet)

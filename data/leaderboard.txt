@@ -7,3 +7,6 @@ Adélie : 125
 TEST L : 0
 Non : 7025
 l : 0
+Xx Jules xX : 6875
+Evan : 32175
+Biel : 1000

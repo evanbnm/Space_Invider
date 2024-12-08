@@ -24,12 +24,12 @@ class Game:
 
 
         self.canvas = tk.Canvas(self.root, bg="black")
-        self.canvas.config(width=self.screen_width * 0.5 , height=self.screen_height * 0.85)
+        self.canvas.config(width=self.screen_width  , height=self.screen_height * 0.85)
         self.canvas.config(highlightthickness=0)
         self.canvas.pack()
 
         self.frame = tk.Frame(root)
-        self.frame.config(width=self.screen_width * 0.5 , height=self.screen_height * 0.15)
+        self.frame.config(width=self.screen_width  , height=self.screen_height * 0.15)
         self.frame.config(bg="black")
         self.frame.pack_propagate(False)
         self.frame.pack(side="bottom")
@@ -44,7 +44,7 @@ class Game:
         self.file_menu.add_command(label="About", command=self.show_about)
         
         self.running = True
-        self.loop_id = None  # Attribut pour stocker l'ID de la boucle
+        self.loop_id = None 
         self.bonus_exist = False
         self.bonus_id = None
         self.end = False
@@ -68,11 +68,10 @@ class Game:
 
         self.leaderboard = Leaderboard(self.canvas, self.frame, None)
 
-        
+        self.normalize_width = self.screen_width / 1470
+        self.normalize_height = self.screen_height / 956
 
-        
-
-        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
 
         self.root.after(1000, lambda: self.start_game())
             
@@ -101,15 +100,18 @@ class Game:
         self.running = False
         self.bonus_exist = False
         self.canvas.delete("all")
-        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.title = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
         self.root.after(1000, lambda: self.canvas.delete(self.title))
         self.ship = Ship(self.canvas, self.skill.max_bullets, self.skill.time_bullets)
+
         if self.stage < 10:
-            self.aliens_group = AlienGroup(self.canvas, self.stage / 4 + 1.25, self.stage * 5 + 10)
+            self.aliens_group = AlienGroup(self.canvas, self.normalize_width * (self.stage / 4 + 1.25), self.normalize_height * (self.stage * 5 + 10))
         if self.stage >= 10:
-            self.aliens_group = AlienGroup(self.canvas, 4, 60)
-        self.wall_right = Wall(self.canvas, 450, 600)
-        self.wall_left = Wall(self.canvas, 100, 600)
+            self.aliens_group = AlienGroup(self.canvas, self.normalize_width * (self.stage / 4 + 1.25), self.normalize_height * 60)
+
+        self.wall_right = Wall(self.canvas, self.screen_width * 0.7, self.screen_height * 0.64)
+        self.wall_left = Wall(self.canvas, self.screen_width * 0.15, self.screen_height * 0.64)
+        self.wall_middle = Wall(self.canvas, self.screen_width * 0.44, self.screen_height * 0.64)
         
         self.running = True
 
@@ -125,6 +127,7 @@ class Game:
         self.main_loop(True)
 
     def restart_game(self):
+        self.running = False
         self.end = True
         if self.lose:
             self.leaderboard.destroy()
@@ -132,20 +135,22 @@ class Game:
             self.continueButton.destroy()
             self.rate_button.destroy()
             self.bullet_button.destroy()
+        self.canvas.delete("all")
         self.score.reset()
         self.life.reset()
         self.skill.reset()
         self.stage = 1
+        self.title = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
 
-        self.start_game()
+        self.root.after(1000, lambda: self.start_game())
         
 
     def main_loop(self, firstLoop = False):
 
         if self.running:
 
-            self.ship.update()   # Mets à jour le vaisseau
-            self.aliens_group.update()  # Mise à jour du groupe d'aliens
+            self.ship.update()
+            self.aliens_group.update() 
             for row in self.aliens_group.aliens:
                 for alien in row:
                     alien.update()
@@ -170,20 +175,19 @@ class Game:
             if(firstLoop):
                 self.alien_fire()
                 self.bonus_alien()
-            # Planifie la prochaine exécution de la boucle
+
             self.loop_id = self.root.after(16, lambda: self.main_loop())
             
     
     def check_collisions(self):
-        aliens_to_remove = []
-        bricks_to_remove = []
 
         for bullet in self.ship.bullets:
             for row in self.aliens_group.aliens:
                 for alien in row:
                     if self.is_collision(bullet, alien):
                         bullet.delete()
-                        aliens_to_remove.append(alien)
+                        alien.delete()
+                        row.remove(alien)
                         self.score.add(25)
             for brick in self.wall_right.brick:
                 if self.is_collision(bullet, brick):
@@ -191,6 +195,11 @@ class Game:
                     brick.delete()
                     self.score.add(-100)
             for brick in self.wall_left.brick:
+                if self.is_collision(bullet, brick):
+                    bullet.delete()
+                    brick.delete()
+                    self.score.add(-100)
+            for brick in self.wall_middle.brick:
                 if self.is_collision(bullet, brick):
                     bullet.delete()
                     brick.delete()
@@ -208,6 +217,7 @@ class Game:
                 bullet.delete()
                 self.life.lose_life()
                 break
+            
             for brick in self.wall_right.brick:
                 if self.is_collision(bullet, brick):
                     bullet.delete()
@@ -218,31 +228,10 @@ class Game:
                     bullet.delete()
                     brick.delete()
 
-        for row in self.aliens_group.aliens:
-            for alien in row:
-                for brick in self.wall_right.brick:
-                    if self.is_collision(alien, brick):
-                        if brick not in bricks_to_remove:
-                            brick.delete()
-                        
-                for brick in self.wall_left.brick:
-                    if self.is_collision(alien, brick):
-                        if brick not in bricks_to_remove:
-                            brick.delete()
-
-        for alien in aliens_to_remove:
-            alien.destroy()
-            for row in self.aliens_group.aliens:
-                if alien in row:
-                    row.remove(alien)
-
-        # for brick in bricks_to_remove:
-        #     brick.delete()
-        #     if brick in self.wall_right.brick:
-        #         self.wall_right.brick.remove(brick)
-        #     else:
-        #         self.wall_left.brick.remove(brick)
-
+            for brick in self.wall_middle.brick:
+                if self.is_collision(bullet, brick):
+                    bullet.delete()
+                    brick.delete()
         
 
     def alien_fire(self):
@@ -252,6 +241,8 @@ class Game:
                 time = random.randint(516 - self.stage * 50, 1516 - self.stage * 100)
             if self.stage >= 10 and self.stage < 20:
                 time = random.randint(16, 516 - self.stage * 20)
+            if self.stage >= 20:
+                time = 16
             col[-1].fire()
             self.root.after(time, lambda: self.alien_fire())
 
@@ -262,7 +253,7 @@ class Game:
             if direction == 1:
                 self.bonus = BonusAlien(self.canvas, 0, 30, direction)
             else:
-                self.bonus = BonusAlien(self.canvas, 700, 30, direction)
+                self.bonus = BonusAlien(self.canvas, self.screen_width, 30, direction)
         time_bonus = random.randint(15000, 20000)
         self.bonus_id = self.root.after(time_bonus, self.bonus_alien)
 
@@ -286,10 +277,10 @@ class Game:
             self.running = False
             self.end = True
             self.canvas.delete("all")
-            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
+            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
             final_score = self.score.get_score()
-            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
-            self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
+            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
+            self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
             self.leaderboard.enter_pseudo(final_score)
         for row in aliens_group.aliens:
             for alien in row:
@@ -298,10 +289,10 @@ class Game:
                     self.running = False
                     self.end = True 
                     self.canvas.delete("all")
-                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
+                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="GAME OVER", fill="red", font=("Arial", 50))
                     final_score = self.score.get_score()
-                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
-                    self.canvas.create_text(self.screen_width / 4, self.screen_height / 2 + 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
+                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 50, text="Score: " + str(final_score), fill="red", font=("Arial", 30))
+                    self.canvas.create_text(self.screen_width / 2, self.screen_height / 2 + self.normalize_height * 150, text="Enter your pseudo", fill="red", font=("Arial", 30))
                     self.leaderboard.enter_pseudo(final_score)
                     
 
@@ -318,7 +309,7 @@ class Game:
         self.score.add(300 + 200 * self.life.lives)
         self.canvas.delete("all")
 
-        self.win_label = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
+        self.win_label = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="YOU WIN", fill="lime", font=("Arial", 50))
         
         self.continueButton = LabelButton(self.canvas, "Continue", self.next_stage)
         self.continueButton.place(relx=0.5, rely=0.8, anchor="center")
@@ -347,7 +338,7 @@ class Game:
         self.bullet_button.destroy()
         self.canvas.delete("all")
         self.stage += 1
-        self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
+        self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="STAGE " + str(self.stage), fill="lime", font=("Arial", 50))
         self.root.after(1000, lambda: self.start_game())
 
 

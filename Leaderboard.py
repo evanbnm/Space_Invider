@@ -11,6 +11,7 @@ class Leaderboard:
         self.pseudo = tk.Entry(self.canvas, bg="black", fg="lime", font=("Arial", 24))
         self.pseudo.place(relx=0.5, rely=0.71, anchor="center")
         self.pseudo.bind("<Return>", lambda event: self.add_score(event, score))
+        self.pseudo.focus_set()
 
     def add_score(self, event, score):
         pseudo = self.pseudo.get()
