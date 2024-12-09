@@ -5,7 +5,8 @@ Author: Your Name
 Date: YYYY-MM-DD
 Description: 
 
-TODO: Change the color of the alien when it is hit by a bullet.
+TODO: 
+-Change the color of the alien when it is hit by a bullet.
 """
 
 from PIL import Image, ImageTk

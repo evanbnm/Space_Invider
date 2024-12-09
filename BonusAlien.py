@@ -5,8 +5,9 @@ Author: Your Name
 Date: 2023-10-10
 Description: This module defines the BonusAlien class for the Space Invader game.
 
-TODO: - Add the capacity for the alien to move in the y-direction.
-      - Add the capacity for the alien to shoot bullets.
+TODO: 
+- Add the capacity for the alien to move in the y-direction.
+- Add the capacity for the alien to shoot bullets.
 """
 from PIL import Image, ImageTk
 

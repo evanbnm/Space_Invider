@@ -5,7 +5,8 @@ Author: [Your Name]
 Date: [Current Date]
 Description: This module defines the Bullet class for the Space Invader game.
 
-TODO: - Add collision between bullets.
+TODO: 
+- Add collision between bullets.
 """
 
 from PIL import Image, ImageTk

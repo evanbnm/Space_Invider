@@ -5,8 +5,9 @@ Author: Your Name
 Date: YYYY-MM-DD
 Description: This module defines the Brick class used in the Space Invader game.
 
-TODO: Add more functionalities to the Brick class if needed.
-        - Add a sound effect when the bricks are hit.
+TODO:
+- Add a sound effect when the bricks are hit.
+- Change the skin of the bricks when they are hit.
 """
 
 from PIL import Image, ImageTk

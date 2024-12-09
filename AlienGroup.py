@@ -5,7 +5,8 @@ Author: Your Name
 Date: YYYY-MM-DD
 Description: This module defines the AlienGroup class which manages a group of alien objects in the Space Invader game.
 
-TODO: -
+TODO: 
+- Add different types of formations for the aliens.
 """
 
 from Alien import Alien
