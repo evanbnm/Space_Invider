@@ -91,7 +91,7 @@ class Ship:
             self.fire()
         if 'M' in self.pressed_keys:
             self.max_bullets = 200
-            self.time_bullets = 5
+            self.time_bullets = 40
         if 'N' in self.pressed_keys:
             self.max_bullets = self.default_max_bullets
             self.time_bullets = self.default_time_bullets

@@ -85,11 +85,9 @@ class Game:
 
     def exe(self):
         self.running = False
-        subprocess.Popen([sys.executable, "menu.py"]) # Utiliser l'interpréteur Python actuel
+        subprocess.Popen([sys.executable, "main.py"]) # Utiliser l'interpréteur Python actuel
         self.root.destroy()
         
-        
-
 
     def start_game(self):
         if self.bonus_id:

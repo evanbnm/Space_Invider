@@ -80,10 +80,6 @@ class Menu(tk.Tk):
 
 
     def exe(self):
-        subprocess.Popen([sys.executable, "main.py"])        # Utiliser l'interpréteur Python actuel
+        subprocess.Popen([sys.executable, "main_game.py"])        # Utiliser l'interpréteur Python actuel
         self.destroy()
-
-# Exécution du programme
-if __name__ == "__main__":
-    menu = Menu()
-    menu.mainloop() 
+ 
