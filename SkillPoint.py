@@ -24,7 +24,7 @@ class SkillPoint:
     def upgrade_rate(self):
         if self.level_rate == "max":
             self.canvas.delete("all")
-            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
+            self.error = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
             self.canvas.after(1500, lambda: self.canvas.delete("all"))
             return
         if self.points > 0:
@@ -36,13 +36,13 @@ class SkillPoint:
             self.update()
         else:
             self.canvas.delete("all")
-            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="NOT ENOUGH POINTS", fill="red", font=("Arial", 50))
+            self.error = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="NOT ENOUGH POINTS", fill="red", font=("Arial", 50))
             self.canvas.after(1500, lambda: self.canvas.delete("all"))
 
     def upgrade_bullets(self):
         if self.level_bullets == "max":
             self.canvas.delete("all")
-            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
+            self.error = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="MAX LEVEL REACHED", fill="red", font=("Arial", 50))
             self.canvas.after(1500, lambda: self.canvas.delete("all"))
             return
         if self.points > 0:
@@ -54,7 +54,7 @@ class SkillPoint:
             self.update()
         else:
             self.canvas.delete("all")
-            self.error = self.canvas.create_text(self.screen_width / 4, self.screen_height / 2, text="NOT ENOUGH POINTS", fill="red", font=("Arial", 50))
+            self.error = self.canvas.create_text(self.screen_width / 2, self.screen_height / 2, text="NOT ENOUGH POINTS", fill="red", font=("Arial", 50))
             self.canvas.after(1500, lambda: self.canvas.delete(self.error))
 
         

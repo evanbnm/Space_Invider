@@ -14,3 +14,5 @@ Biel : 1000
 test : 50
 oui : 0
 oui : 0
+adelie bebou chou : 13700
+ evan : 5150

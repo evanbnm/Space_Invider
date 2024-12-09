@@ -11,7 +11,7 @@ class BonusAlien:
 
         self.score = 150
         self.direction = direction
-        self.speed = self.normalize_width * 3 * self.direction
+        self.speed = self.normalize_width * 6 * self.direction
 
 
     
