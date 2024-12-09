@@ -1,1 +1,2 @@
 # Space_Invider
+<!-- commente en anglais toutes les fonctions de mon programme pour respecter la PEP 257 et ajoute un header contenant pleins d'informations dont l'encoding le nom du fichier.py l'auteur la date la description et une todo -->

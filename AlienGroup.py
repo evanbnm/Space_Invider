@@ -4,7 +4,7 @@ Filename: AlienGroup.py
 Author: Your Name
 Date: YYYY-MM-DD
 Description: This module defines the AlienGroup class which manages a group of alien objects in the Space Invader game.
-TODO: Implement bullet deletion logic and improve edge detection.
+TODO: -
 """
 
 from Alien import Alien
@@ -36,11 +36,11 @@ class AlienGroup:
         Create a grid of aliens.
         """
         for col in range(self.col): 
-            l = []
+            list = []
             for row in range(self.row): 
                 alien = Alien(self.canvas, self.x_offset + col * 60, self.y_offset + row * 60, self)
-                l.append(alien)
-            self.aliens.append(l)
+                list.append(alien)
+            self.aliens.append(list)
 
     def move(self):
         """
@@ -59,7 +59,7 @@ class AlienGroup:
             for alien in row:
                 x1, y1, x2, y2 = alien.get_coords()
                 xl = min(x1, xl)
-                xr = max(x2, xr)
+                xr = max(x2, xr) # Find the leftmost and rightmost aliens
 
         if xl <= 0: 
             self.direction *= -1 
@@ -85,8 +85,7 @@ class AlienGroup:
         Update the position of aliens and bullets, and check for edge collisions.
         """
         self.move()
-        if self.check_edges():
-            pass  
+        self.check_edges()
         for row in self.aliens:
             if len(row) == 0:
                 self.aliens.remove(row)
