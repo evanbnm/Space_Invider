@@ -1,4 +1,3 @@
-import tkinter as tk
 from PIL import Image, ImageTk
 class Bullet:
     def __init__(self, canvas, x, y, direction, alien, isEnnemy=False):

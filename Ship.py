@@ -1,8 +1,5 @@
-import tkinter as tk
 from PIL import Image, ImageTk
-
 from Bullet import Bullet
-from Life import Life
 
 class Ship:
     def __init__(self, canvas, max_bullets, time_bullets):

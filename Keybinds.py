@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Keybinds module for managing key bindings in the Space Invader game.
-
+Filename: Keybinds.py
 Author: Your Name
 Date: YYYY-MM-DD
-Version: 1.0
-Filename: Keybinds.py
-
+Description:
+Keybinds module for managing key bindings in the Space Invader game.
 This module allows users to view, edit, reset, and save key bindings for game actions.
 
 TODO:

@@ -1,5 +1,4 @@
 import tkinter as tk
-from LabelButton import LabelButton
 
 class SkillPoint:
     def __init__(self,root, canvas):
