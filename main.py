@@ -2,7 +2,7 @@
 """
 Filename: main.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This script initializes and runs the main menu for the Space Invader game.
 """
 

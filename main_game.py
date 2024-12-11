@@ -2,7 +2,7 @@
 """
 Filename: main_game.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-12-09
 Description: Main script to run the Space Invaders game using tkinter.
 """
 

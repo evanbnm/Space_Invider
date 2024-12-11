@@ -2,7 +2,7 @@
 """
 Filename: BonusAlien.py
 Author: Evan et Mathis
-Date: 2023-10-10
+Date: 2024-11-26
 Description: This module defines the BonusAlien class for the Space Invader game.
 
 TODO: 

@@ -2,7 +2,7 @@
 """
 Filename: Ship.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This module defines the Ship class for the Space Invader game.
 TODO: Add more functionalities and improve the game mechanics.
 """

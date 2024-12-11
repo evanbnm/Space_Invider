@@ -2,7 +2,7 @@
 """
 Filename: Score.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This module defines the Score class for managing the game score in a tkinter application.
 TODO: 
 - Add more functionalities to handle high scores.

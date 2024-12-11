@@ -2,7 +2,7 @@
 """
 Leaderboard.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-12-01
 Description: This module handles the leaderboard functionality for the Space Invader game.
              It allows users to enter their pseudonyms and scores, and displays the leaderboard.
 TODO: 

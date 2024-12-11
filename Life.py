@@ -2,7 +2,7 @@
 """
 Filename: Life.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This module defines the Life class for managing player lives in a game.
 TODO: Implement additional features such as saving and loading lives.
 """

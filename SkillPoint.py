@@ -2,7 +2,7 @@
 """
 Filename: SkillPoint.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-12-01
 Description: This module manages skill points for a game, allowing upgrades to bullet rate and count.
 
 TODO: 

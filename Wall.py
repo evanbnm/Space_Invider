@@ -2,7 +2,7 @@
 """
 Filename: Wall.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This module defines the Wall class which creates a wall of bricks in a canvas.
 
 TODO:

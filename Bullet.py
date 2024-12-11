@@ -2,7 +2,7 @@
 """
 Filename: Bullet.py
 Author: Evan et Mathis
-Date: [Current Date]
+Date: 2024-11-26
 Description: This module defines the Bullet class for the Space Invader game.
 
 TODO: 

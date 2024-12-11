@@ -2,7 +2,7 @@
 """
 Filename: menu.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-12-11
 Description: This module creates the main menu for the Space Invaders game using tkinter.
 
 TODO: 

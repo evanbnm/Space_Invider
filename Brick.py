@@ -2,7 +2,7 @@
 """
 Filename: Brick.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-11-26
 Description: This module defines the Brick class used in the Space Invader game.
 
 TODO:

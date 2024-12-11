@@ -2,7 +2,7 @@
 """
 Filename: LabelButton.py
 Author: Evan et Mathis
-Date: YYYY-MM-DD
+Date: 2024-12-01
 Description: This module defines the LabelButton class which creates a custom label button using tkinter.
 
 TODO: 
