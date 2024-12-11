@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+"""
+Filename: menu.py
+Author: Your Name
+Date: YYYY-MM-DD
+Description: This module creates the main menu for the Space Invaders game using tkinter.
+
+TODO: 
+-Add more functionalities and improve the UI.
+"""
+
 import tkinter as tk
 from PIL import Image, ImageTk
 import subprocess
@@ -9,20 +20,18 @@ from Leaderboard import Leaderboard
 
 class Menu(tk.Tk):
     def __init__(self):
+        """Initialize the main menu window."""
         super().__init__()
-        
-        # Configuration de la fenêtre
+
         self.title("Menu du jeu")
         self.after(100, lambda: self.attributes("-fullscreen", True))
         self.configure(bg="black") 
         
-        # Charger l'image de fond
         self.bg_image = Image.open("images/bg.jpg")
-        self.bg_image = self.bg_image.resize((self.winfo_screenwidth(), self.winfo_screenheight()), Image.LANCZOS)
+        self.bg_image = self.bg_image.resize((self.winfo_screenwidth(), self.winfo_screenheight()), Image.LANCZOS) # Resize the image to fit the screen 
         self.bg_photo = ImageTk.PhotoImage(self.bg_image)
         
-        # Créer le canvas
-        self.canvas = tk.Canvas(self, width=self.winfo_screenwidth(), height=self.winfo_screenheight())
+        self.canvas = tk.Canvas(self, width=self.winfo_screenwidth(), height=self.winfo_screenheight()) 
         self.canvas.pack(fill="both", expand=True)
         self.canvas.create_image(0, 0, image=self.bg_photo, anchor="nw")
         self.canvas.config(highlightthickness=0)
@@ -42,23 +51,23 @@ class Menu(tk.Tk):
         self.quit = LabelButton(self, "QUIT", self.destroy)
         self.quit.place(relx=0.5, rely=0.9, anchor="center")
 
-       
-
-        self.title_image = Image.open("images/title.png")
-        self.title_image = self.title_image.resize((600, 250) , Image.LANCZOS)
+        self.title_image = Image.open("images/title.png") 
+        self.title_image = self.title_image.resize((600, 250) , Image.LANCZOS) 
         self.title_photo = ImageTk.PhotoImage(self.title_image)
         self.canvas.create_image(self.winfo_screenwidth() // 2, 250, image=self.title_photo)
 
     def show_keybinds(self):
+        """Display the keybinds window."""
         keybinds_manager = Keybinds(self)
         keybinds_manager.show_keybinds()
 
     def show_leaderboard(self):
+        """Display the leaderboard window."""
         leaderboard = Leaderboard(None, None, self)
         leaderboard.show_leaderboard()
 
-
     def show_rules(self):
+        """Display the rules window."""
         rules = tk.Toplevel(self)
         rules.title("Rules")
         rules.attributes("-fullscreen", True)
@@ -78,8 +87,7 @@ class Menu(tk.Tk):
         close = LabelButton(rules, "Close", rules.destroy)
         close.place(relx=0.5, rely=0.9, anchor="center")
 
-
     def exe(self):
-        subprocess.Popen([sys.executable, "main_game.py"])        # Utiliser l'interpréteur Python actuel
+        """Execute the main game script and close the menu."""
+        subprocess.Popen([sys.executable, "main_game.py"]) # Use the current Python interpreter
         self.destroy()
- 
