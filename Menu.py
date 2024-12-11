@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Filename: menu.py
+Filename: Menu.py
 Author: Evan et Mathis
 Date: 2024-12-11
 Description: This module creates the main menu for the Space Invaders game using tkinter.
