@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Brick.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module defines the Brick class used in the Space Invader game.
 

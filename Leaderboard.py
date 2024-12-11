@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Leaderboard.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module handles the leaderboard functionality for the Space Invader game.
              It allows users to enter their pseudonyms and scores, and displays the leaderboard.

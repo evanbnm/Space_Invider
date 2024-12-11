@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: menu.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module creates the main menu for the Space Invaders game using tkinter.
 

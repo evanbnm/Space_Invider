@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: main.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This script initializes and runs the main menu for the Space Invader game.
 """

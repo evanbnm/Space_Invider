@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: main_game.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: Main script to run the Space Invaders game using tkinter.
 """

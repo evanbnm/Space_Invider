@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: BonusAlien.py
-Author: Your Name
+Author: Evan et Mathis
 Date: 2023-10-10
 Description: This module defines the BonusAlien class for the Space Invader game.
 

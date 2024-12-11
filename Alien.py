@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Alien.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: 
 

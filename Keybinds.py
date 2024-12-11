@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Keybinds.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description:
 Keybinds module for managing key bindings in the Space Invader game.

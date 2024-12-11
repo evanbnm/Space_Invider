@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: LabelButton.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module defines the LabelButton class which creates a custom label button using tkinter.
 

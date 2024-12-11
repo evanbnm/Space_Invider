@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Bullet.py
-Author: [Your Name]
+Author: Evan et Mathis
 Date: [Current Date]
 Description: This module defines the Bullet class for the Space Invader game.
 

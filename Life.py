@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Life.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module defines the Life class for managing player lives in a game.
 TODO: Implement additional features such as saving and loading lives.

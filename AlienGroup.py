@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: AlienGroup.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module defines the AlienGroup class which manages a group of alien objects in the Space Invader game.
 

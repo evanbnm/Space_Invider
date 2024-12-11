@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Filename: Score.py
-Author: Your Name
+Author: Evan et Mathis
 Date: YYYY-MM-DD
 Description: This module defines the Score class for managing the game score in a tkinter application.
 TODO: 
