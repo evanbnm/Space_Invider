@@ -69,7 +69,7 @@ class Leaderboard:
         leaderboard_text = tk.Text(leaderboard, bg="black", fg="lime", font=("Arial", 30))
         leaderboard_text.pack(expand=True, fill="both")
         leaderboard_text.tag_configure("center", justify="center")
-
+        
         scores = {}
         with open("data/leaderboard.txt", "r", encoding="utf-8") as file: # Read the leaderboard file
             for line in file:
@@ -78,7 +78,7 @@ class Leaderboard:
                     pseudo, score = parts
                     score = int(score)
                     if pseudo in scores:
-                        if score > scores[pseudo]: # Check if the new score is higher
+                        if score > scores[pseudo]: # Check if the new score is higher to not have duplicates 
                             scores[pseudo] = score
                     else:
                         scores[pseudo] = score

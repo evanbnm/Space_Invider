@@ -1,21 +1,26 @@
-Gauthier : 500
-Splash : 400
-OUIOUI : 300
+Gauthier : 5000
+Splash : 8125
 Yariv : 1725
-Best Test : 18650
+Adélie : 18650
 Adélie : 125
-TEST L : 0
-Non : 7025
-l : 0
+TEST : 0
 Xx Jules xX : 6875
 Evan : 32175
-Biel : 1000
-éééééàà$ : 650
-test : 50
-oui : 1
-adelie bebou chou : 13700
-evan : 5150
-oui : 25
-oui : 683
-test oui : 250
+Raph : 1000
+Loann : 2600
 Evan : 33700
+San : 3400
+Maman : 1950
+TEST : 1525
+Adam : 500
+Max : 1425
+Félix : 100
+Gio : 50
+Yaël : 2375
+Fred : 25
+Bastien : 775
+Yanis : 7825
+David : 450
+Loser : 0
+
+Gio : 1650
