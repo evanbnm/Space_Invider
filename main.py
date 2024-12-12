@@ -6,7 +6,7 @@ Date: 2024-11-26
 Description: This script initializes and runs the main menu for the Space Invader game.
 """
 
-from Menu import Menu
+from python.Menu import Menu
 
 def main():
     """

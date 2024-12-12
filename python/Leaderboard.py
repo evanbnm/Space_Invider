@@ -11,7 +11,7 @@ TODO:
 """
 
 import tkinter as tk
-from LabelButton import LabelButton
+from python.LabelButton import LabelButton
 
 class Leaderboard:
     def __init__(self, canvas, frame, parent):

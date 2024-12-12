@@ -10,7 +10,7 @@ TODO:
 """
 
 from PIL import Image, ImageTk
-from Bullet import Bullet
+from python.Bullet import Bullet
 
 class Alien:
     def __init__(self, canvas, x, y, alien_group):

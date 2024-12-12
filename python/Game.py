@@ -17,15 +17,15 @@ import random
 import subprocess
 import sys
 
-from AlienGroup import AlienGroup
-from Ship import Ship
-from Life import Life
-from Score import Score
-from Wall import Wall
-from BonusAlien import BonusAlien
-from LabelButton import LabelButton
-from SkillPoint import SkillPoint
-from Leaderboard import Leaderboard
+from python.AlienGroup import AlienGroup
+from python.Ship import Ship
+from python.Life import Life
+from python.Score import Score
+from python.Wall import Wall
+from python.BonusAlien import BonusAlien
+from python.LabelButton import LabelButton
+from python.SkillPoint import SkillPoint
+from python.Leaderboard import Leaderboard
 
 class Game:
     def __init__(self, root):

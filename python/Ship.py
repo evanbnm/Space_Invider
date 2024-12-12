@@ -8,7 +8,7 @@ TODO: Add more functionalities and improve the game mechanics.
 """
 
 from PIL import Image, ImageTk
-from Bullet import Bullet
+from python.Bullet import Bullet
 
 class Ship:
     def __init__(self, canvas, max_bullets, time_bullets):

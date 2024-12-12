@@ -9,7 +9,7 @@ TODO:
 - Add different types of formations for the aliens.
 """
 
-from Alien import Alien
+from python.Alien import Alien
 
 class AlienGroup:
     def __init__(self, canvas, speed, down):

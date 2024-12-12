@@ -13,7 +13,7 @@ TODO:
 """
 
 import tkinter as tk
-from LabelButton import LabelButton
+from python.LabelButton import LabelButton
 
 class Keybinds:
     """Class to manage key bindings for the Space Invader game."""

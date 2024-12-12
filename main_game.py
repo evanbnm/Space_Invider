@@ -7,7 +7,7 @@ Description: Main script to run the Space Invaders game using tkinter.
 """
 
 import tkinter as tk
-from Game import Game
+from python.Game import Game
 
 def main():
     """

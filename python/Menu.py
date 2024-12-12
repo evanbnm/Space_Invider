@@ -14,9 +14,9 @@ from PIL import Image, ImageTk
 import subprocess
 import sys
 
-from LabelButton import LabelButton
-from Keybinds import Keybinds
-from Leaderboard import Leaderboard
+from python.LabelButton import LabelButton
+from python.Keybinds import Keybinds
+from python.Leaderboard import Leaderboard
 
 class Menu(tk.Tk):
     def __init__(self):

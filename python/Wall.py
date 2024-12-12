@@ -9,7 +9,7 @@ TODO:
 - Allow an alien to destroy all the wall in one super bullet.
 """
 
-from Brick import Brick
+from python.Brick import Brick
 
 class Wall:
     def __init__(self, canvas, x, y):
